@@ -12,78 +12,73 @@ document.addEventListener('DOMContentLoaded', () => {
   setupContactForm();
 });
 
-// Setup Hero Booking Form on index.html
+// Setup Booking Forms across site (Hero form on index.html and room reservation forms): redirects seamlessly to dedicated booking.html
 function setupHeroBookingForm() {
-  const form = document.querySelector('.booking-form form');
-  if (!form) return;
+  const forms = document.querySelectorAll('.booking-form form, .room-booking form');
+  if (!forms || forms.length === 0) return;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    const dateIn = document.getElementById('date-in')?.value;
-    const dateOut = document.getElementById('date-out')?.value;
-    const guestSelect = document.getElementById('guest')?.value;
-    const roomSelect = document.getElementById('room')?.value;
+      const dateIn = form.querySelector('#date-in, input[name="check_in"]')?.value;
+      const dateOut = form.querySelector('#date-out, input[name="check_out"]')?.value;
+      const guestEl = form.querySelector('#guest, select[name="guests"]');
+      const roomEl = form.querySelector('#room, select[name="rooms"]');
+      const roomIdEl = form.querySelector('input[name="room_id"]');
 
-    if (!dateIn || !dateOut) {
-      alert('Please select both Check-In and Check-Out dates.');
-      return;
-    }
+      const params = new URLSearchParams();
 
-    // Prompt for Guest Details in an elegant overlay or prompt
-    const guestName = prompt('Please enter your Full Name to complete your reservation request:');
-    if (!guestName || guestName.trim() === '') return;
+      // Helper to format date string to YYYY-MM-DD
+      const formatToYMD = (dStr) => {
+        if (!dStr) return '';
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dStr.trim())) return dStr.trim();
+        try {
+          const d = new Date(dStr);
+          if (!isNaN(d.getTime())) {
+            const yr = d.getFullYear();
+            const mo = String(d.getMonth() + 1).padStart(2, '0');
+            const da = String(d.getDate()).padStart(2, '0');
+            return `${yr}-${mo}-${da}`;
+          }
+        } catch (err) {}
+        return '';
+      };
 
-    const guestEmail = prompt('Please enter your Contact Email:');
-    if (!guestEmail || guestEmail.trim() === '') return;
+      const inYMD = formatToYMD(dateIn);
+      const outYMD = formatToYMD(dateOut);
 
-    const guestPhone = prompt('Please enter your Phone Number:') || '+1 (555) 000-0000';
+      if (inYMD) params.set('check_in', inYMD);
+      if (outYMD) params.set('check_out', outYMD);
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Processing...';
-
-    // Format dates to YYYY-MM-DD
-    const formatDateForAPI = (dStr) => {
-      try {
-        const d = new Date(dStr);
-        if (!isNaN(d.getTime())) {
-          return d.toISOString().split('T')[0];
-        }
-      } catch (e) {}
-      return new Date().toISOString().split('T')[0];
-    };
-
-    const payload = {
-      guest_name: guestName.trim(),
-      guest_email: guestEmail.trim(),
-      guest_phone: guestPhone.trim(),
-      check_in: formatDateForAPI(dateIn),
-      check_out: formatDateForAPI(dateOut),
-      adults: guestSelect ? (parseInt(guestSelect, 10) || 2) : 2,
-      room_count: roomSelect ? (parseInt(roomSelect, 10) || 1) : 1
-    };
-
-    try {
-      const res = await fetch(`${BACKEND_API}/bookings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        showPublicBookingConfirmation(data.data);
-      } else {
-        alert('Booking request error: ' + (data.message || 'Please try again.'));
+      if (roomIdEl && roomIdEl.value) {
+        params.set('room_id', roomIdEl.value);
       }
-    } catch (err) {
-      alert('Could not connect to reservation server. Please verify backend is running on http://localhost:5000.');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalText;
-    }
+
+      // Get guest count from select value or option text
+      let guestVal = guestEl?.value;
+      if (!guestVal && guestEl && guestEl.selectedIndex >= 0) {
+        guestVal = guestEl.options[guestEl.selectedIndex].text;
+      }
+      const guestMatch = String(guestVal || '').match(/\d+/);
+      if (guestMatch) {
+        params.set('guests', guestMatch[0]);
+      }
+
+      // Get room count from select value or option text
+      let roomVal = roomEl?.value;
+      if (!roomVal && roomEl && roomEl.selectedIndex >= 0) {
+        roomVal = roomEl.options[roomEl.selectedIndex].text;
+      }
+      const roomMatch = String(roomVal || '').match(/\d+/);
+      if (roomMatch) {
+        params.set('rooms', roomMatch[0]);
+      }
+
+      // Smoothly redirect to dedicated booking page
+      const query = params.toString();
+      window.location.href = query ? `booking.html?${query}` : 'booking.html';
+    });
   });
 }
 

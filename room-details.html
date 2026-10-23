@@ -291,27 +291,32 @@
                 <div class="col-lg-4">
                     <div class="room-booking">
                         <h3>Your Reservation</h3>
-                        <form action="#">
+                        <form action="booking.html" method="GET">
+                            <input type="hidden" name="room_id" value="2">
                             <div class="check-date">
                                 <label for="date-in">Check In:</label>
-                                <input type="text" class="date-input" id="date-in">
+                                <input type="text" class="date-input" id="date-in" name="check_in">
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="check-date">
                                 <label for="date-out">Check Out:</label>
-                                <input type="text" class="date-input" id="date-out">
+                                <input type="text" class="date-input" id="date-out" name="check_out">
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="select-option">
                                 <label for="guest">Guests:</label>
-                                <select id="guest">
-                                    <option value="">3 Adults</option>
+                                <select id="guest" name="guests">
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3" selected>3 Adults</option>
+                                    <option value="4">4 Adults</option>
                                 </select>
                             </div>
                             <div class="select-option">
                                 <label for="room">Room:</label>
-                                <select id="room">
-                                    <option value="">1 Room</option>
+                                <select id="room" name="rooms">
+                                    <option value="1" selected>1 Room</option>
+                                    <option value="2">2 Rooms</option>
                                 </select>
                             </div>
                             <button type="submit">Check Availability</button>
@@ -410,6 +415,7 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/site-backend.js"></script>
 </body>
 
 </html>
