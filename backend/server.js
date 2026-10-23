@@ -44,9 +44,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Root redirects or defaults
+// Root redirects or defaults: direct unauthenticated admin access to login.html
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(config.adminStaticDir, 'index.html'));
+  res.redirect('/admin/login.html');
 });
 
 // Central error handler

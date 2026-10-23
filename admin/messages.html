@@ -12,6 +12,13 @@
   <!-- Icons -->
   <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
   
+  <!-- Auth Guard -->
+  <script>
+    if (!localStorage.getItem('sona_admin_token')) {
+      window.location.replace('login.html');
+    }
+  </script>
+
   <!-- Admin Styles -->
   <link rel="stylesheet" href="css/admin-style.css" type="text/css">
 </head>

@@ -16,6 +16,13 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- Auth Guard: Ensure only authenticated users can view admin dashboard -->
+  <script>
+    if (!localStorage.getItem('sona_admin_token')) {
+      window.location.replace('login.html');
+    }
+  </script>
+
   <!-- Admin Styles -->
   <link rel="stylesheet" href="css/admin-style.css" type="text/css">
 </head>
