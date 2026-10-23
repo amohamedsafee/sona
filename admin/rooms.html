@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sona Luxury Hotel | Rooms & Suites Management</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+  
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="css/admin-style.css" type="text/css">
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <img src="../img/logo.png" alt="Sona Hotel">
+        </a>
+        <div class="brand-subtitle">Executive Suite</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <ul class="sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Hospitality Operations</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="bookings.html">
+              <i class="fa fa-calendar-check-o"></i> 
+              <span>Bookings</span>
+              <span class="sidebar-badge" id="sidebar-badge-bookings" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="active"><a href="rooms.html"><i class="fa fa-bed"></i> <span>Rooms & Suites</span></a></li>
+          <li><a href="services.html"><i class="fa fa-bell-o"></i> <span>Services</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Guest Experience & Content</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="messages.html">
+              <i class="fa fa-envelope-o"></i> 
+              <span>Inquiries</span>
+              <span class="sidebar-badge danger" id="sidebar-badge-messages" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="blogs.html"><i class="fa fa-newspaper-o"></i> <span>News & Blog</span></a></li>
+          <li><a href="testimonials.html"><i class="fa fa-star-o"></i> <span>Reviews</span></a></li>
+          <li><a href="settings.html"><i class="fa fa-sliders"></i> <span>Hotel Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <img src="../img/room/avatar/avatar-1.jpg" alt="User" class="user-avatar-img">
+          <div class="user-info-text">
+            <div class="user-info-name">Administrator</div>
+            <div class="user-info-role">Superadmin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn"><i class="fa fa-bars"></i></button>
+          <div class="page-breadcrumb">
+            <h2>Rooms & Suites Inventory</h2>
+            <div class="breadcrumb-sub">Configure room pricing, amenities, capacities and availability</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="gold-btn-solid" onclick="openCreateRoomModal()">
+            <i class="fa fa-plus"></i> Add New Room
+          </button>
+          <button class="btn-logout" title="Sign Out">
+            <i class="fa fa-power-off"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- Room Inventory Stats -->
+        <div class="kpi-grid" style="margin-bottom:24px;">
+          <div class="kpi-card">
+            <div class="kpi-title">Total Room Catalog</div>
+            <div class="kpi-value" id="stats-total-rooms">0</div>
+            <div class="kpi-footer-text">Distinct categories & suite types</div>
+          </div>
+          <div class="kpi-card success">
+            <div class="kpi-title">Ready & Available</div>
+            <div class="kpi-value" id="stats-available-rooms">0</div>
+            <div class="kpi-footer-text" style="color:var(--success)">Ready for check-in</div>
+          </div>
+          <div class="kpi-card warning">
+            <div class="kpi-title">Currently Occupied</div>
+            <div class="kpi-value" id="stats-booked-rooms">0</div>
+            <div class="kpi-footer-text">Active resident guests</div>
+          </div>
+          <div class="kpi-card info">
+            <div class="kpi-title">Average Room Rate</div>
+            <div class="kpi-value" id="stats-avg-price">$0</div>
+            <div class="kpi-footer-text">Nightly average across suites</div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="search-box-wrap">
+            <i class="fa fa-search"></i>
+            <input type="text" id="roomSearch" class="search-input" placeholder="Search rooms by name or category...">
+          </div>
+          <div style="display:flex; gap:12px;">
+            <select id="categoryFilter" class="filter-select">
+              <option value="all">All Categories</option>
+              <option value="Deluxe">Deluxe</option>
+              <option value="Family">Family</option>
+              <option value="Premium">Premium</option>
+              <option value="Double">Double</option>
+              <option value="Suite">Suite</option>
+            </select>
+            <select id="statusFilter" class="filter-select">
+              <option value="all">All Statuses</option>
+              <option value="available">Available</option>
+              <option value="booked">Booked</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Rooms Grid -->
+        <div class="room-admin-grid" id="roomsContainer">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #888;">
+            <i class="fa fa-spinner fa-spin"></i> Loading room inventory...
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Room Create/Edit Modal -->
+  <div class="sona-modal-backdrop" id="roomModal">
+    <div class="sona-modal">
+      <div class="sona-modal-header">
+        <h3 id="roomModalTitle">Add New Room</h3>
+        <button class="btn-modal-close" onclick="closeModal('roomModal')">&times;</button>
+      </div>
+      <form id="roomForm">
+        <input type="hidden" id="room_id">
+        <div class="sona-modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Room Name*</label>
+              <input type="text" id="r_name" class="form-control" required placeholder="e.g. Royal Ocean Suite">
+            </div>
+            <div class="form-group">
+              <label>Category*</label>
+              <select id="r_category" class="form-control" required>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Family">Family</option>
+                <option value="Premium">Premium</option>
+                <option value="Double">Double</option>
+                <option value="Suite">Suite</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Price Per Night ($)*</label>
+              <input type="number" step="0.01" id="r_price" class="form-control" required placeholder="199.00">
+            </div>
+            <div class="form-group">
+              <label>Size (sqft / ft)</label>
+              <input type="number" id="r_size" class="form-control" value="30">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Max Guest Capacity</label>
+              <input type="number" id="r_capacity" class="form-control" value="2" min="1" max="10">
+            </div>
+            <div class="form-group">
+              <label>Bed Configuration</label>
+              <input type="text" id="r_bed" class="form-control" value="King Beds" placeholder="e.g. King Beds">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Included Services & Amenities</label>
+            <input type="text" id="r_services" class="form-control" value="Wifi, Television, Bathroom, Air Conditioning" placeholder="Comma separated list">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Status</label>
+              <select id="r_status" class="form-control">
+                <option value="available">Available</option>
+                <option value="booked">Booked</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Upload Room Image</label>
+              <input type="file" id="r_image_file" class="form-control" accept="image/*">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Or Template Image Path</label>
+            <input type="text" id="r_image_url" class="form-control" value="img/room/room-1.jpg" placeholder="img/room/room-b1.jpg">
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="r_desc" class="form-control" rows="3" placeholder="Describe the room ambiance, scenic view, and features..."></textarea>
+          </div>
+        </div>
+        <div class="sona-modal-footer">
+          <button type="button" class="gold-btn-outline" onclick="closeModal('roomModal')">Cancel</button>
+          <button type="submit" class="gold-btn-solid"><i class="fa fa-save"></i> Save Room</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script>
+    let roomsData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadRooms();
+      loadRoomStats();
+      setupFilters();
+      setupRoomForm();
+    });
+
+    async function loadRooms() {
+      try {
+        const res = await SonaAPI.rooms.getAll();
+        if (res.success) {
+          roomsData = res.data;
+          renderRooms(roomsData);
+        }
+      } catch (err) {
+        SonaAPI.showToast('Failed to load rooms: ' + err.message, 'error');
+      }
+    }
+
+    async function loadRoomStats() {
+      try {
+        const res = await SonaAPI.rooms.getStats();
+        if (res.success && res.data) {
+          const s = res.data;
+          document.getElementById('stats-total-rooms').textContent = s.total_rooms_count || 0;
+          document.getElementById('stats-available-rooms').textContent = s.available_count || 0;
+          document.getElementById('stats-booked-rooms').textContent = s.booked_count || 0;
+          document.getElementById('stats-avg-price').textContent = formatCurrency(s.average_price);
+        }
+      } catch (e) {}
+    }
+
+    function renderRooms(rooms) {
+      const container = document.getElementById('roomsContainer');
+      if (rooms.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding: 40px;">No rooms match criteria.</div>`;
+        return;
+      }
+
+      container.innerHTML = rooms.map(r => {
+        const imgSrc = r.image_url.startsWith('http') || r.image_url.startsWith('/') 
+          ? r.image_url 
+          : `../${r.image_url}`;
+
+        return `
+          <div class="room-admin-card">
+            <div class="room-card-img-wrap">
+              <img src="${imgSrc}" alt="${r.name}" onerror="this.src='../img/room/room-1.jpg'">
+              <div class="room-price-tag">$${parseFloat(r.price_per_night).toFixed(0)} <span style="font-size:11px; font-weight:normal;">/night</span></div>
+            </div>
+
+            <div class="room-card-body">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--primary-gold-dark); font-weight:700;">${r.category}</span>
+                ${getStatusBadge(r.status)}
+              </div>
+              <h3 class="room-card-title">${r.name}</h3>
+              <p style="font-size:13px; color:#666; margin-bottom:12px; line-height:1.4;">
+                ${(r.description || '').substring(0, 95)}...
+              </p>
+
+              <ul class="room-specs-list">
+                <li><i class="fa fa-arrows-alt" style="color:var(--primary-gold);"></i> <strong>Size:</strong> ${r.size_sqft} ft</li>
+                <li><i class="fa fa-users" style="color:var(--primary-gold);"></i> <strong>Capacity:</strong> Max ${r.capacity} Persons</li>
+                <li><i class="fa fa-bed" style="color:var(--primary-gold);"></i> <strong>Bed:</strong> ${r.bed_type}</li>
+                <li><i class="fa fa-check-circle" style="color:var(--primary-gold);"></i> <strong>Services:</strong> ${(r.services || '').substring(0, 32)}...</li>
+              </ul>
+            </div>
+
+            <div class="room-card-footer">
+              <div style="display:flex; gap:4px; align-items:center;">
+                <select onchange="updateRoomStatus(${r.id}, this.value)" style="padding:4px 6px; font-size:12px; border-radius:3px; border:1px solid #ccc;">
+                  <option value="available" ${r.status === 'available' ? 'selected' : ''}>Available</option>
+                  <option value="booked" ${r.status === 'booked' ? 'selected' : ''}>Booked</option>
+                  <option value="maintenance" ${r.status === 'maintenance' ? 'selected' : ''}>Maintenance</option>
+                </select>
+              </div>
+
+              <div class="action-btns">
+                <button class="btn-icon-action" title="Edit Room" onclick="openEditRoomModal(${r.id})">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn-icon-action delete" title="Delete Room" onclick="deleteRoom(${r.id})">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setupFilters() {
+      const search = document.getElementById('roomSearch');
+      const cat = document.getElementById('categoryFilter');
+      const stat = document.getElementById('statusFilter');
+
+      const apply = () => {
+        const q = search.value.toLowerCase().trim();
+        const c = cat.value;
+        const s = stat.value;
+
+        const filtered = roomsData.filter(r => {
+          const matchQ = !q || r.name.toLowerCase().includes(q) || r.category.toLowerCase().includes(q);
+          const matchC = c === 'all' || r.category === c;
+          const matchS = s === 'all' || r.status === s;
+          return matchQ && matchC && matchS;
+        });
+
+        renderRooms(filtered);
+      };
+
+      search.addEventListener('input', apply);
+      cat.addEventListener('change', apply);
+      stat.addEventListener('change', apply);
+    }
+
+    async function updateRoomStatus(id, newStatus) {
+      try {
+        await SonaAPI.rooms.updateStatus(id, newStatus);
+        SonaAPI.showToast(`Room marked as ${newStatus}`, 'success');
+        loadRooms();
+        loadRoomStats();
+      } catch (err) {
+        SonaAPI.showToast('Failed to update status', 'error');
+      }
+    }
+
+    async function deleteRoom(id) {
+      if (!confirm('Are you sure you want to remove this room from the catalog?')) return;
+      try {
+        await SonaAPI.rooms.delete(id);
+        SonaAPI.showToast('Room deleted successfully.', 'success');
+        loadRooms();
+        loadRoomStats();
+      } catch (err) {
+        SonaAPI.showToast('Error deleting room: ' + err.message, 'error');
+      }
+    }
+
+    function openCreateRoomModal() {
+      document.getElementById('roomForm').reset();
+      document.getElementById('room_id').value = '';
+      document.getElementById('roomModalTitle').textContent = 'Add New Hotel Room';
+      document.getElementById('r_image_url').value = 'img/room/room-1.jpg';
+      openModal('roomModal');
+    }
+
+    async function openEditRoomModal(id) {
+      try {
+        const res = await SonaAPI.rooms.getById(id);
+        if (!res.success) return;
+        const r = res.data;
+
+        document.getElementById('room_id').value = r.id;
+        document.getElementById('r_name').value = r.name;
+        document.getElementById('r_category').value = r.category;
+        document.getElementById('r_price').value = r.price_per_night;
+        document.getElementById('r_size').value = r.size_sqft;
+        document.getElementById('r_capacity').value = r.capacity;
+        document.getElementById('r_bed').value = r.bed_type;
+        document.getElementById('r_services').value = r.services;
+        document.getElementById('r_status').value = r.status;
+        document.getElementById('r_image_url').value = r.image_url;
+        document.getElementById('r_desc').value = r.description || '';
+
+        document.getElementById('roomModalTitle').textContent = `Edit Room: ${r.name}`;
+        openModal('roomModal');
+      } catch (err) {
+        SonaAPI.showToast('Error loading room details.', 'error');
+      }
+    }
+
+    function setupRoomForm() {
+      document.getElementById('roomForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById('room_id').value;
+        const fileInput = document.getElementById('r_image_file');
+
+        let body;
+        // Use FormData if file selected, otherwise plain JSON
+        if (fileInput.files.length > 0) {
+          body = new FormData();
+          body.append('image', fileInput.files[0]);
+          body.append('name', document.getElementById('r_name').value.trim());
+          body.append('category', document.getElementById('r_category').value);
+          body.append('price_per_night', document.getElementById('r_price').value);
+          body.append('size_sqft', document.getElementById('r_size').value);
+          body.append('capacity', document.getElementById('r_capacity').value);
+          body.append('bed_type', document.getElementById('r_bed').value);
+          body.append('services', document.getElementById('r_services').value);
+          body.append('status', document.getElementById('r_status').value);
+          body.append('description', document.getElementById('r_desc').value);
+        } else {
+          body = {
+            name: document.getElementById('r_name').value.trim(),
+            category: document.getElementById('r_category').value,
+            price_per_night: document.getElementById('r_price').value,
+            size_sqft: document.getElementById('r_size').value,
+            capacity: document.getElementById('r_capacity').value,
+            bed_type: document.getElementById('r_bed').value,
+            services: document.getElementById('r_services').value,
+            status: document.getElementById('r_status').value,
+            image_url: document.getElementById('r_image_url').value.trim(),
+            description: document.getElementById('r_desc').value
+          };
+        }
+
+        try {
+          if (id) {
+            await SonaAPI.rooms.update(id, body);
+            SonaAPI.showToast('Room updated successfully!', 'success');
+          } else {
+            await SonaAPI.rooms.create(body);
+            SonaAPI.showToast('New room added to catalog!', 'success');
+          }
+
+          closeModal('roomModal');
+          loadRooms();
+          loadRoomStats();
+        } catch (err) {
+          SonaAPI.showToast('Error saving room: ' + err.message, 'error');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

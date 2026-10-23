@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sona Luxury Hotel | Executive Admin Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="css/admin-style.css" type="text/css">
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <img src="../img/logo.png" alt="Sona Hotel">
+        </a>
+        <div class="brand-subtitle">Executive Suite</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <ul class="sidebar-menu">
+          <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Hospitality Operations</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="bookings.html">
+              <i class="fa fa-calendar-check-o"></i> 
+              <span>Bookings</span>
+              <span class="sidebar-badge" id="sidebar-badge-bookings" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="rooms.html"><i class="fa fa-bed"></i> <span>Rooms & Suites</span></a></li>
+          <li><a href="services.html"><i class="fa fa-concierge-bell fa-bell-o"></i> <span>Services</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Guest Experience & Content</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="messages.html">
+              <i class="fa fa-envelope-o"></i> 
+              <span>Inquiries</span>
+              <span class="sidebar-badge danger" id="sidebar-badge-messages" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="blogs.html"><i class="fa fa-newspaper-o"></i> <span>News & Blog</span></a></li>
+          <li><a href="testimonials.html"><i class="fa fa-star-o"></i> <span>Reviews</span></a></li>
+          <li><a href="settings.html"><i class="fa fa-sliders"></i> <span>Hotel Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <img src="../img/room/avatar/avatar-1.jpg" alt="User" class="user-avatar-img">
+          <div class="user-info-text">
+            <div class="user-info-name">Administrator</div>
+            <div class="user-info-role">Superadmin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn"><i class="fa fa-bars"></i></button>
+          <div class="page-breadcrumb">
+            <h2>Hotel Management Dashboard</h2>
+            <div class="breadcrumb-sub">Real-time occupancy, revenue & reservation analytics</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <a href="../index.html" target="_blank" class="gold-btn-outline">
+            <i class="fa fa-external-link"></i> Live Website
+          </a>
+          <button class="gold-btn-solid" onclick="openNewBookingModal()">
+            <i class="fa fa-plus"></i> New Booking
+          </button>
+          <button class="btn-logout" title="Sign Out">
+            <i class="fa fa-power-off"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <div class="admin-content">
+        <!-- KPI Cards Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Total Revenue</span>
+              <div class="kpi-icon-wrap"><i class="fa fa-dollar"></i></div>
+            </div>
+            <div class="kpi-value" id="kpi-revenue">$0.00</div>
+            <div class="kpi-footer-text"><i class="fa fa-arrow-up" style="color:var(--success)"></i> Verified transactions</div>
+          </div>
+
+          <div class="kpi-card success">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Total Bookings</span>
+              <div class="kpi-icon-wrap" style="color:var(--success); background:rgba(40,167,69,0.12)"><i class="fa fa-calendar-check-o"></i></div>
+            </div>
+            <div class="kpi-value" id="kpi-bookings">0</div>
+            <div class="kpi-footer-text" id="kpi-confirmed-sub">All reservation history</div>
+          </div>
+
+          <div class="kpi-card info">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Occupancy Rate</span>
+              <div class="kpi-icon-wrap" style="color:var(--info); background:rgba(23,162,184,0.12)"><i class="fa fa-percent"></i></div>
+            </div>
+            <div class="kpi-value" id="kpi-occupancy">0%</div>
+            <div class="kpi-footer-text" id="kpi-occupied-rooms">0 occupied / 0 total rooms</div>
+          </div>
+
+          <div class="kpi-card warning">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Pending Action</span>
+              <div class="kpi-icon-wrap" style="color:var(--warning); background:rgba(230,126,34,0.12)"><i class="fa fa-clock-o"></i></div>
+            </div>
+            <div class="kpi-value" id="kpi-pending">0</div>
+            <div class="kpi-footer-text" id="kpi-pending-sub">Awaiting confirmation</div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title"><i class="fa fa-line-chart"></i> Revenue & Bookings Trend</div>
+              <span style="font-size: 12px; color: var(--text-muted);">Last 6 Months</span>
+            </div>
+            <div class="panel-body">
+              <canvas id="revenueChart" height="130"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title"><i class="fa fa-pie-chart"></i> Room Status Allocation</div>
+            </div>
+            <div class="panel-body" style="display:flex; justify-content:center; align-items:center;">
+              <div style="max-width: 250px; width: 100%;">
+                <canvas id="occupancyChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title"><i class="fa fa-list-alt"></i> Recent Reservations</div>
+            <a href="bookings.html" class="gold-btn-outline" style="padding: 5px 12px; font-size: 11px;">View All Bookings</a>
+          </div>
+          <div class="table-responsive">
+            <table class="sona-table">
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Guest Name</th>
+                  <th>Room Selected</th>
+                  <th>Check In / Out</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Payment</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recent-bookings-tbody">
+                <tr>
+                  <td colspan="8" style="text-align:center; padding: 30px; color: #888;">
+                    <i class="fa fa-spinner fa-spin"></i> Loading latest bookings...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Latest Inquiries Section -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title"><i class="fa fa-comments-o"></i> Latest Customer Inquiries</div>
+            <a href="messages.html" class="gold-btn-outline" style="padding: 5px 12px; font-size: 11px;">Inbox</a>
+          </div>
+          <div class="table-responsive">
+            <table class="sona-table">
+              <thead>
+                <tr>
+                  <th>Sender</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="latest-inquiries-tbody">
+                <tr>
+                  <td colspan="6" style="text-align:center; padding: 20px; color: #888;">
+                    <i class="fa fa-spinner fa-spin"></i> Loading inquiries...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Booking Details -->
+  <div class="sona-modal-backdrop" id="bookingDetailModal">
+    <div class="sona-modal">
+      <div class="sona-modal-header">
+        <h3 id="modalBookingRef">Booking Details</h3>
+        <button class="btn-modal-close" onclick="closeModal('bookingDetailModal')">&times;</button>
+      </div>
+      <div class="sona-modal-body" id="modalBookingBody">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="sona-modal-footer">
+        <button type="button" class="gold-btn-outline" onclick="closeModal('bookingDetailModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Quick Create Booking -->
+  <div class="sona-modal-backdrop" id="newBookingModal">
+    <div class="sona-modal">
+      <div class="sona-modal-header">
+        <h3>Create New Guest Booking</h3>
+        <button class="btn-modal-close" onclick="closeModal('newBookingModal')">&times;</button>
+      </div>
+      <form id="newBookingForm">
+        <div class="sona-modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Guest Full Name*</label>
+              <input type="text" id="nb_name" class="form-control" required placeholder="e.g. Johnathan Smith">
+            </div>
+            <div class="form-group">
+              <label>Guest Email*</label>
+              <input type="email" id="nb_email" class="form-control" required placeholder="guest@example.com">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Phone Number*</label>
+              <input type="text" id="nb_phone" class="form-control" required placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="form-group">
+              <label>Room Type*</label>
+              <select id="nb_room" class="form-control" required>
+                <option value="">Select Room...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Check In Date*</label>
+              <input type="date" id="nb_checkin" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Check Out Date*</label>
+              <input type="date" id="nb_checkout" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Adults</label>
+              <input type="number" id="nb_adults" class="form-control" value="2" min="1" max="10">
+            </div>
+            <div class="form-group">
+              <label>Rooms Count</label>
+              <input type="number" id="nb_count" class="form-control" value="1" min="1" max="5">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Initial Status</label>
+              <select id="nb_status" class="form-control">
+                <option value="confirmed">Confirmed</option>
+                <option value="pending">Pending</option>
+                <option value="checked_in">Checked In</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Payment Status</label>
+              <select id="nb_payment" class="form-control">
+                <option value="unpaid">Unpaid</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Special Requests / Notes</label>
+            <textarea id="nb_notes" class="form-control" placeholder="Airport transfer, extra pillow, high floor..."></textarea>
+          </div>
+        </div>
+        <div class="sona-modal-footer">
+          <button type="button" class="gold-btn-outline" onclick="closeModal('newBookingModal')">Cancel</button>
+          <button type="submit" class="gold-btn-solid"><i class="fa fa-check"></i> Save Reservation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script>
+    let revenueChartInstance = null;
+    let occupancyChartInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboardMetrics();
+      loadAvailableRoomsDropdown();
+      setupNewBookingForm();
+    });
+
+    async function loadDashboardMetrics() {
+      try {
+        const res = await SonaAPI.dashboard.getMetrics();
+        if (!res.success) return;
+
+        const { kpi, statusCounts, monthlyRevenue, latestBookings, latestInquiries } = res.data;
+
+        // Render KPI metrics
+        document.getElementById('kpi-revenue').textContent = formatCurrency(kpi.totalRevenue);
+        document.getElementById('kpi-bookings').textContent = kpi.totalBookings;
+        document.getElementById('kpi-occupancy').textContent = `${kpi.occupancyPercentage}%`;
+        document.getElementById('kpi-occupied-rooms').textContent = `${kpi.occupiedRooms} occupied / ${kpi.totalRooms} total rooms`;
+        document.getElementById('kpi-pending').textContent = kpi.pendingBookings;
+
+        // Render Charts
+        renderRevenueChart(monthlyRevenue);
+        renderOccupancyChart(kpi.occupiedRooms, kpi.availableRooms, kpi.totalRooms);
+
+        // Render Tables
+        renderRecentBookings(latestBookings);
+        renderRecentInquiries(latestInquiries);
+      } catch (err) {
+        console.error('Metrics loading error:', err);
+        SonaAPI.showToast('Failed to load dashboard data.', 'error');
+      }
+    }
+
+    function renderRevenueChart(monthlyData = []) {
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+      if (revenueChartInstance) revenueChartInstance.destroy();
+
+      const labels = monthlyData.length > 0 ? monthlyData.map(d => d.month_label) : ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+      const values = monthlyData.length > 0 ? monthlyData.map(d => d.revenue) : [1200, 1850, 2400, 2100, 2900, 3400];
+
+      revenueChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Monthly Revenue ($)',
+            data: values,
+            borderColor: '#dfa974',
+            backgroundColor: 'rgba(223, 169, 116, 0.15)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: '#19191a',
+            pointBorderColor: '#dfa974',
+            pointBorderWidth: 2,
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(0,0,0,0.05)' },
+              ticks: { callback: v => '$' + v }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function renderOccupancyChart(occupied, available, total) {
+      const ctx = document.getElementById('occupancyChart').getContext('2d');
+      if (occupancyChartInstance) occupancyChartInstance.destroy();
+
+      occupancyChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Occupied', 'Available'],
+          datasets: [{
+            data: [occupied || 1, available || (total - occupied) || 5],
+            backgroundColor: ['#dfa974', '#28a745'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          },
+          cutout: '70%'
+        }
+      });
+    }
+
+    function renderRecentBookings(bookings = []) {
+      const tbody = document.getElementById('recent-bookings-tbody');
+      if (!bookings || bookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 20px;">No bookings found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = bookings.map(b => `
+        <tr>
+          <td><strong style="color:var(--text-dark);">${b.booking_reference}</strong></td>
+          <td>
+            <div style="font-weight:600;">${b.guest_name}</div>
+            <div style="font-size:12px; color:#888;">${b.guest_email}</div>
+          </td>
+          <td>${b.room_name}</td>
+          <td>
+            <span style="font-size:13px;">${formatDate(b.check_in)}</span><br>
+            <span style="font-size:11px; color:#888;">to ${formatDate(b.check_out)}</span>
+          </td>
+          <td><strong>${formatCurrency(b.total_amount)}</strong></td>
+          <td>${getStatusBadge(b.status)}</td>
+          <td>${getPaymentBadge(b.payment_status)}</td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-icon-action" title="View Details" onclick="viewBookingDetails(${b.id})">
+                <i class="fa fa-eye"></i>
+              </button>
+              <select onchange="quickUpdateStatus(${b.id}, this.value)" style="padding: 4px; font-size: 11px; border-radius: 3px; border: 1px solid #ddd;">
+                <option value="">Change Status...</option>
+                <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="checked_in" ${b.status === 'checked_in' ? 'selected' : ''}>Checked In</option>
+                <option value="checked_out" ${b.status === 'checked_out' ? 'selected' : ''}>Checked Out</option>
+                <option value="cancelled" ${b.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderRecentInquiries(inquiries = []) {
+      const tbody = document.getElementById('latest-inquiries-tbody');
+      if (!inquiries || inquiries.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No inquiries found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = inquiries.map(m => `
+        <tr>
+          <td><strong>${m.name}</strong></td>
+          <td>${m.email}</td>
+          <td>${m.subject || 'General'}</td>
+          <td>${formatDate(m.created_at)}</td>
+          <td>
+            <span class="badge-status ${m.status === 'unread' ? 'badge-cancelled' : m.status === 'read' ? 'badge-pending' : 'badge-confirmed'}">
+              ${m.status.toUpperCase()}
+            </span>
+          </td>
+          <td>
+            <a href="messages.html" class="gold-btn-outline" style="padding: 3px 8px; font-size: 11px;">Respond</a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function quickUpdateStatus(bookingId, newStatus) {
+      if (!newStatus) return;
+      try {
+        await SonaAPI.bookings.updateStatus(bookingId, newStatus);
+        SonaAPI.showToast(`Booking status changed to ${newStatus}`, 'success');
+        loadDashboardMetrics();
+      } catch (e) {
+        SonaAPI.showToast('Failed to update status: ' + e.message, 'error');
+      }
+    }
+
+    async function viewBookingDetails(id) {
+      try {
+        const res = await SonaAPI.bookings.getById(id);
+        if (!res.success) return;
+        const b = res.data;
+
+        document.getElementById('modalBookingRef').textContent = `Reservation: ${b.booking_reference}`;
+        document.getElementById('modalBookingBody').innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+            <div>
+              <h4 style="margin-bottom: 4px;">${b.room_name} (${b.room_category})</h4>
+              <div style="color:#777; font-size:13px;">${b.bed_type} • Services: ${b.room_services || 'Standard'}</div>
+            </div>
+            <div style="text-align:right;">
+              ${getStatusBadge(b.status)}
+              <div style="margin-top: 5px;">${getPaymentBadge(b.payment_status)}</div>
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom: 15px;">
+            <div>
+              <strong style="font-size:12px; color:#888; text-transform:uppercase;">Guest Information</strong>
+              <div style="font-size:15px; font-weight:600; margin-top:4px;">${b.guest_name}</div>
+              <div style="font-size:13px; color:#555;">${b.guest_email}</div>
+              <div style="font-size:13px; color:#555;">${b.guest_phone}</div>
+            </div>
+            <div>
+              <strong style="font-size:12px; color:#888; text-transform:uppercase;">Reservation Details</strong>
+              <div style="font-size:13px; margin-top:4px;">Check In: <strong>${formatDate(b.check_in)}</strong></div>
+              <div style="font-size:13px;">Check Out: <strong>${formatDate(b.check_out)}</strong></div>
+              <div style="font-size:13px;">Stay Length: <strong>${b.total_nights} Nights</strong> (${b.room_count} Room)</div>
+            </div>
+          </div>
+
+          <div style="background:#fcf9f5; border:1px solid rgba(223,169,116,0.3); padding:16px; border-radius:4px; margin-bottom: 15px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span>Room Rate (${b.total_nights} nights x $${b.room_unit_price}):</span>
+              <strong>${formatCurrency(b.total_amount)}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size: 16px; border-top: 1px dashed #ddd; padding-top: 8px;">
+              <span>Total Price:</span>
+              <strong style="color:var(--primary-gold-dark);">${formatCurrency(b.total_amount)}</strong>
+            </div>
+          </div>
+
+          <div>
+            <strong style="font-size:12px; color:#888; text-transform:uppercase;">Special Requests</strong>
+            <p style="font-size:13px; background:#fafafa; padding:10px; border-radius:4px; border:1px solid #eee; margin-top:4px;">
+              ${b.special_requests || 'No special requests noted.'}
+            </p>
+          </div>
+        `;
+
+        openModal('bookingDetailModal');
+      } catch (err) {
+        SonaAPI.showToast('Could not load booking details.', 'error');
+      }
+    }
+
+    async function loadAvailableRoomsDropdown() {
+      try {
+        const res = await SonaAPI.rooms.getAll();
+        if (res.success && res.data) {
+          const select = document.getElementById('nb_room');
+          select.innerHTML = '<option value="">Select Room...</option>' + 
+            res.data.map(r => `<option value="${r.id}">${r.name} - $${r.price_per_night}/night</option>`).join('');
+        }
+      } catch (e) {}
+    }
+
+    function openNewBookingModal() {
+      // Set default dates
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 2);
+
+      document.getElementById('nb_checkin').value = today.toISOString().split('T')[0];
+      document.getElementById('nb_checkout').value = tomorrow.toISOString().split('T')[0];
+
+      openModal('newBookingModal');
+    }
+
+    function setupNewBookingForm() {
+      const form = document.getElementById('newBookingForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const bookingData = {
+          guest_name: document.getElementById('nb_name').value.trim(),
+          guest_email: document.getElementById('nb_email').value.trim(),
+          guest_phone: document.getElementById('nb_phone').value.trim(),
+          room_id: document.getElementById('nb_room').value,
+          check_in: document.getElementById('nb_checkin').value,
+          check_out: document.getElementById('nb_checkout').value,
+          adults: document.getElementById('nb_adults').value,
+          room_count: document.getElementById('nb_count').value,
+          status: document.getElementById('nb_status').value,
+          payment_status: document.getElementById('nb_payment').value,
+          special_requests: document.getElementById('nb_notes').value.trim()
+        };
+
+        try {
+          const res = await SonaAPI.bookings.create(bookingData);
+          if (res.success) {
+            SonaAPI.showToast('Reservation created! Ref: ' + res.data.booking_reference, 'success');
+            closeModal('newBookingModal');
+            form.reset();
+            loadDashboardMetrics();
+          }
+        } catch (err) {
+          SonaAPI.showToast('Error: ' + err.message, 'error');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

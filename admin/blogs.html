@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sona Luxury Hotel | News & Blog Articles</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+  
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="css/admin-style.css" type="text/css">
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <img src="../img/logo.png" alt="Sona Hotel">
+        </a>
+        <div class="brand-subtitle">Executive Suite</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <ul class="sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Hospitality Operations</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="bookings.html">
+              <i class="fa fa-calendar-check-o"></i> 
+              <span>Bookings</span>
+              <span class="sidebar-badge" id="sidebar-badge-bookings" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="rooms.html"><i class="fa fa-bed"></i> <span>Rooms & Suites</span></a></li>
+          <li><a href="services.html"><i class="fa fa-bell-o"></i> <span>Services</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Guest Experience & Content</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="messages.html">
+              <i class="fa fa-envelope-o"></i> 
+              <span>Inquiries</span>
+              <span class="sidebar-badge danger" id="sidebar-badge-messages" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="active"><a href="blogs.html"><i class="fa fa-newspaper-o"></i> <span>News & Blog</span></a></li>
+          <li><a href="testimonials.html"><i class="fa fa-star-o"></i> <span>Reviews</span></a></li>
+          <li><a href="settings.html"><i class="fa fa-sliders"></i> <span>Hotel Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <img src="../img/room/avatar/avatar-1.jpg" alt="User" class="user-avatar-img">
+          <div class="user-info-text">
+            <div class="user-info-name">Administrator</div>
+            <div class="user-info-role">Superadmin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn"><i class="fa fa-bars"></i></button>
+          <div class="page-breadcrumb">
+            <h2>Hotel News & Blog Publications</h2>
+            <div class="breadcrumb-sub">Publish travel tips, holiday guides, and property press releases</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="gold-btn-solid" onclick="openCreateBlogModal()">
+            <i class="fa fa-pencil"></i> Write New Article
+          </button>
+          <button class="btn-logout" title="Sign Out">
+            <i class="fa fa-power-off"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title"><i class="fa fa-newspaper-o"></i> Published Articles & Editorial Drafts</div>
+            <button class="gold-btn-outline" onclick="loadBlogs()" style="padding:4px 10px; font-size:11px;">
+              <i class="fa fa-refresh"></i> Refresh
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="sona-table">
+              <thead>
+                <tr>
+                  <th>Article Preview</th>
+                  <th>Title & Topic</th>
+                  <th>Category / Tag</th>
+                  <th>Author</th>
+                  <th>Publication Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="blogsTbody">
+                <tr>
+                  <td colspan="7" style="text-align:center; padding:30px; color:#888;">
+                    <i class="fa fa-spinner fa-spin"></i> Loading blog posts...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Blog Modal -->
+  <div class="sona-modal-backdrop" id="blogModal">
+    <div class="sona-modal" style="max-width:700px;">
+      <div class="sona-modal-header">
+        <h3 id="blogModalTitle">Write Article</h3>
+        <button class="btn-modal-close" onclick="closeModal('blogModal')">&times;</button>
+      </div>
+      <form id="blogForm">
+        <input type="hidden" id="blog_id">
+        <div class="sona-modal-body">
+          <div class="form-group">
+            <label>Article Title*</label>
+            <input type="text" id="b_title" class="form-control" required placeholder="e.g. Winter Ski Escapes in Mont Tremblant">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Category Tag</label>
+              <input type="text" id="b_tag" class="form-control" value="Travel Trip" placeholder="e.g. Travel, Dining, Event">
+            </div>
+            <div class="form-group">
+              <label>Author Byline</label>
+              <input type="text" id="b_author" class="form-control" value="Hotel Admin" placeholder="Author name">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Publish Date</label>
+              <input type="date" id="b_date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="b_status" class="form-control">
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Upload Header Image</label>
+              <input type="file" id="b_image_file" class="form-control" accept="image/*">
+            </div>
+            <div class="form-group">
+              <label>Or Template Image Path</label>
+              <input type="text" id="b_image_url" class="form-control" value="img/blog/blog-1.jpg">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Excerpt / Short Summary</label>
+            <textarea id="b_excerpt" class="form-control" rows="2" placeholder="Brief 1-2 sentence teaser for cards..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Full Content</label>
+            <textarea id="b_content" class="form-control" rows="6" placeholder="Write full article body here..."></textarea>
+          </div>
+        </div>
+        <div class="sona-modal-footer">
+          <button type="button" class="gold-btn-outline" onclick="closeModal('blogModal')">Cancel</button>
+          <button type="submit" class="gold-btn-solid"><i class="fa fa-check"></i> Save Article</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script>
+    let blogsData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadBlogs();
+      setupBlogForm();
+    });
+
+    async function loadBlogs() {
+      try {
+        const res = await SonaAPI.blogs.getAll();
+        if (res.success) {
+          blogsData = res.data;
+          renderBlogs(blogsData);
+        }
+      } catch (e) {
+        SonaAPI.showToast('Failed to load blog posts.', 'error');
+      }
+    }
+
+    function renderBlogs(blogs) {
+      const tbody = document.getElementById('blogsTbody');
+      if (blogs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px;">No articles found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = blogs.map(b => {
+        const imgSrc = b.image_url.startsWith('http') || b.image_url.startsWith('/') 
+          ? b.image_url 
+          : `../${b.image_url}`;
+
+        return `
+          <tr>
+            <td style="width: 80px;">
+              <img src="${imgSrc}" style="width: 70px; height: 50px; object-fit: cover; border-radius: 4px;" onerror="this.src='../img/blog/blog-1.jpg'">
+            </td>
+            <td>
+              <strong style="font-size:14px; color:var(--text-dark);">${b.title}</strong>
+              <div style="font-size:12px; color:#888;">${(b.excerpt || '').substring(0, 60)}...</div>
+            </td>
+            <td><span class="badge-status badge-pending">${b.tag}</span></td>
+            <td>${b.author}</td>
+            <td>${formatDate(b.published_date)}</td>
+            <td>
+              <span class="badge-status ${b.status === 'published' ? 'badge-confirmed' : 'badge-maintenance'}">
+                ${b.status.toUpperCase()}
+              </span>
+            </td>
+            <td>
+              <div class="action-btns">
+                <button class="btn-icon-action" title="Edit Article" onclick="openEditBlogModal(${b.id})">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn-icon-action delete" title="Delete Article" onclick="deleteBlog(${b.id})">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openCreateBlogModal() {
+      document.getElementById('blogForm').reset();
+      document.getElementById('blog_id').value = '';
+      document.getElementById('blogModalTitle').textContent = 'Write New Article';
+      document.getElementById('b_date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('b_image_url').value = 'img/blog/blog-1.jpg';
+      openModal('blogModal');
+    }
+
+    async function openEditBlogModal(id) {
+      try {
+        const res = await SonaAPI.blogs.getById(id);
+        if (!res.success) return;
+        const b = res.data;
+
+        document.getElementById('blog_id').value = b.id;
+        document.getElementById('b_title').value = b.title;
+        document.getElementById('b_tag').value = b.tag;
+        document.getElementById('b_author').value = b.author;
+        document.getElementById('b_date').value = (b.published_date || '').slice(0, 10);
+        document.getElementById('b_status').value = b.status;
+        document.getElementById('b_image_url').value = b.image_url;
+        document.getElementById('b_excerpt').value = b.excerpt || '';
+        document.getElementById('b_content').value = b.content || '';
+
+        document.getElementById('blogModalTitle').textContent = 'Edit Article';
+        openModal('blogModal');
+      } catch (err) {
+        SonaAPI.showToast('Could not load article', 'error');
+      }
+    }
+
+    async function deleteBlog(id) {
+      if (!confirm('Are you sure you want to delete this article?')) return;
+      try {
+        await SonaAPI.blogs.delete(id);
+        SonaAPI.showToast('Article deleted successfully.', 'success');
+        loadBlogs();
+      } catch (e) {
+        SonaAPI.showToast('Failed to delete', 'error');
+      }
+    }
+
+    function setupBlogForm() {
+      document.getElementById('blogForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('blog_id').value;
+        const fileInput = document.getElementById('b_image_file');
+
+        let body;
+        if (fileInput.files.length > 0) {
+          body = new FormData();
+          body.append('image', fileInput.files[0]);
+          body.append('title', document.getElementById('b_title').value.trim());
+          body.append('tag', document.getElementById('b_tag').value.trim());
+          body.append('author', document.getElementById('b_author').value.trim());
+          body.append('published_date', document.getElementById('b_date').value);
+          body.append('status', document.getElementById('b_status').value);
+          body.append('excerpt', document.getElementById('b_excerpt').value.trim());
+          body.append('content', document.getElementById('b_content').value.trim());
+        } else {
+          body = {
+            title: document.getElementById('b_title').value.trim(),
+            tag: document.getElementById('b_tag').value.trim(),
+            author: document.getElementById('b_author').value.trim(),
+            published_date: document.getElementById('b_date').value,
+            status: document.getElementById('b_status').value,
+            image_url: document.getElementById('b_image_url').value.trim(),
+            excerpt: document.getElementById('b_excerpt').value.trim(),
+            content: document.getElementById('b_content').value.trim()
+          };
+        }
+
+        try {
+          if (id) {
+            await SonaAPI.blogs.update(id, body);
+            SonaAPI.showToast('Article updated!', 'success');
+          } else {
+            await SonaAPI.blogs.create(body);
+            SonaAPI.showToast('Article published!', 'success');
+          }
+          closeModal('blogModal');
+          loadBlogs();
+        } catch (err) {
+          SonaAPI.showToast('Error saving: ' + err.message, 'error');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sona Luxury Hotel | Hotel Services & Amenities</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="../css/flaticon.css" type="text/css">
+  
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="css/admin-style.css" type="text/css">
+  <style>
+    .service-admin-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .service-admin-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(223, 169, 116, 0.4);
+    }
+    .service-admin-icon {
+      font-size: 38px;
+      color: var(--primary-gold-dark);
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <img src="../img/logo.png" alt="Sona Hotel">
+        </a>
+        <div class="brand-subtitle">Executive Suite</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <ul class="sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Hospitality Operations</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="bookings.html">
+              <i class="fa fa-calendar-check-o"></i> 
+              <span>Bookings</span>
+              <span class="sidebar-badge" id="sidebar-badge-bookings" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="rooms.html"><i class="fa fa-bed"></i> <span>Rooms & Suites</span></a></li>
+          <li class="active"><a href="services.html"><i class="fa fa-bell-o"></i> <span>Services</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Guest Experience & Content</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="messages.html">
+              <i class="fa fa-envelope-o"></i> 
+              <span>Inquiries</span>
+              <span class="sidebar-badge danger" id="sidebar-badge-messages" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="blogs.html"><i class="fa fa-newspaper-o"></i> <span>News & Blog</span></a></li>
+          <li><a href="testimonials.html"><i class="fa fa-star-o"></i> <span>Reviews</span></a></li>
+          <li><a href="settings.html"><i class="fa fa-sliders"></i> <span>Hotel Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <img src="../img/room/avatar/avatar-1.jpg" alt="User" class="user-avatar-img">
+          <div class="user-info-text">
+            <div class="user-info-name">Administrator</div>
+            <div class="user-info-role">Superadmin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn"><i class="fa fa-bars"></i></button>
+          <div class="page-breadcrumb">
+            <h2>Hotel Services & Amenities</h2>
+            <div class="breadcrumb-sub">Manage guest perks, concierge offerings, and public service showcases</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="gold-btn-solid" onclick="openCreateServiceModal()">
+            <i class="fa fa-plus"></i> Add Service
+          </button>
+          <button class="btn-logout" title="Sign Out">
+            <i class="fa fa-power-off"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title"><i class="fa fa-list"></i> Active Services Showcase</div>
+          </div>
+          <div class="panel-body">
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:20px;" id="servicesContainer">
+              <div style="grid-column: 1 / -1; text-align:center; padding: 40px; color:#888;">
+                <i class="fa fa-spinner fa-spin"></i> Loading services...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Service Modal -->
+  <div class="sona-modal-backdrop" id="serviceModal">
+    <div class="sona-modal">
+      <div class="sona-modal-header">
+        <h3 id="serviceModalTitle">Add Hotel Service</h3>
+        <button class="btn-modal-close" onclick="closeModal('serviceModal')">&times;</button>
+      </div>
+      <form id="serviceForm">
+        <input type="hidden" id="service_id">
+        <div class="sona-modal-body">
+          <div class="form-group">
+            <label>Service Title*</label>
+            <input type="text" id="s_title" class="form-control" required placeholder="e.g. Travel Plan & City Tour">
+          </div>
+
+          <div class="form-group">
+            <label>Flaticon Icon Class</label>
+            <select id="s_icon" class="form-control">
+              <option value="flaticon-036-parking">flaticon-036-parking (Travel / Car)</option>
+              <option value="flaticon-033-dinner">flaticon-033-dinner (Restaurant / Dining)</option>
+              <option value="flaticon-026-bed">flaticon-026-bed (Bed / Babysitting)</option>
+              <option value="flaticon-024-towel">flaticon-024-towel (Laundry / Spa)</option>
+              <option value="flaticon-044-clock-1">flaticon-044-clock-1 (24/7 / Driver)</option>
+              <option value="flaticon-012-cocktail">flaticon-012-cocktail (Bar & Lounge)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Description*</label>
+            <textarea id="s_desc" class="form-control" rows="3" required placeholder="Description displayed on the homepage..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select id="s_active" class="form-control">
+              <option value="1">Active (Visible on Homepage)</option>
+              <option value="0">Disabled</option>
+            </select>
+          </div>
+        </div>
+        <div class="sona-modal-footer">
+          <button type="button" class="gold-btn-outline" onclick="closeModal('serviceModal')">Cancel</button>
+          <button type="submit" class="gold-btn-solid"><i class="fa fa-check"></i> Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script>
+    let servicesData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadServices();
+      setupServiceForm();
+    });
+
+    async function loadServices() {
+      try {
+        const res = await SonaAPI.services.getAll();
+        if (res.success) {
+          servicesData = res.data;
+          renderServices(servicesData);
+        }
+      } catch (e) {
+        SonaAPI.showToast('Failed to load services', 'error');
+      }
+    }
+
+    function renderServices(services) {
+      const container = document.getElementById('servicesContainer');
+      if (services.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1 / -1; text-align:center;">No services configured.</div>';
+        return;
+      }
+
+      container.innerHTML = services.map(s => `
+        <div class="service-admin-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <i class="${s.icon_class} service-admin-icon"></i>
+            <span class="badge-status ${s.is_active ? 'badge-confirmed' : 'badge-cancelled'}">
+              ${s.is_active ? 'ACTIVE' : 'INACTIVE'}
+            </span>
+          </div>
+          <h4 style="margin-bottom:8px; font-size:18px;">${s.title}</h4>
+          <p style="font-size:13px; color:#666; flex:1; line-height:1.5;">${s.description}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; border-top:1px solid #eee; padding-top:12px;">
+            <button class="gold-btn-outline" style="padding:4px 8px; font-size:11px;" onclick="toggleServiceActive(${s.id}, ${s.is_active})">
+              ${s.is_active ? 'Deactivate' : 'Activate'}
+            </button>
+            <div class="action-btns">
+              <button class="btn-icon-action" title="Edit" onclick="openEditServiceModal(${s.id})">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button class="btn-icon-action delete" title="Delete" onclick="deleteService(${s.id})">
+                <i class="fa fa-trash-o"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCreateServiceModal() {
+      document.getElementById('serviceForm').reset();
+      document.getElementById('service_id').value = '';
+      document.getElementById('serviceModalTitle').textContent = 'Add Hotel Service';
+      openModal('serviceModal');
+    }
+
+    function openEditServiceModal(id) {
+      const s = servicesData.find(item => item.id == id);
+      if (!s) return;
+      document.getElementById('service_id').value = s.id;
+      document.getElementById('s_title').value = s.title;
+      document.getElementById('s_icon').value = s.icon_class;
+      document.getElementById('s_desc').value = s.description;
+      document.getElementById('s_active').value = s.is_active ? '1' : '0';
+      document.getElementById('serviceModalTitle').textContent = `Edit Service: ${s.title}`;
+      openModal('serviceModal');
+    }
+
+    async function toggleServiceActive(id, currentActive) {
+      try {
+        await SonaAPI.services.toggle(id, !currentActive);
+        SonaAPI.showToast('Service status updated.', 'success');
+        loadServices();
+      } catch (err) {
+        SonaAPI.showToast('Failed to update status', 'error');
+      }
+    }
+
+    async function deleteService(id) {
+      if (!confirm('Are you sure you want to delete this service?')) return;
+      try {
+        await SonaAPI.services.delete(id);
+        SonaAPI.showToast('Service deleted.', 'success');
+        loadServices();
+      } catch (err) {
+        SonaAPI.showToast('Failed to delete service', 'error');
+      }
+    }
+
+    function setupServiceForm() {
+      document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('service_id').value;
+        const data = {
+          title: document.getElementById('s_title').value.trim(),
+          icon_class: document.getElementById('s_icon').value,
+          description: document.getElementById('s_desc').value.trim(),
+          is_active: parseInt(document.getElementById('s_active').value, 10)
+        };
+
+        try {
+          if (id) {
+            await SonaAPI.services.update(id, data);
+            SonaAPI.showToast('Service updated successfully!', 'success');
+          } else {
+            await SonaAPI.services.create(data);
+            SonaAPI.showToast('New service created!', 'success');
+          }
+          closeModal('serviceModal');
+          loadServices();
+        } catch (err) {
+          SonaAPI.showToast('Error: ' + err.message, 'error');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

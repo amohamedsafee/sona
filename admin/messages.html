@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sona Luxury Hotel | Guest Inquiries & Messages</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+  
+  <!-- Admin Styles -->
+  <link rel="stylesheet" href="css/admin-style.css" type="text/css">
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <img src="../img/logo.png" alt="Sona Hotel">
+        </a>
+        <div class="brand-subtitle">Executive Suite</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Overview</div>
+        <ul class="sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Hospitality Operations</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="bookings.html">
+              <i class="fa fa-calendar-check-o"></i> 
+              <span>Bookings</span>
+              <span class="sidebar-badge" id="sidebar-badge-bookings" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="rooms.html"><i class="fa fa-bed"></i> <span>Rooms & Suites</span></a></li>
+          <li><a href="services.html"><i class="fa fa-bell-o"></i> <span>Services</span></a></li>
+        </ul>
+
+        <div class="sidebar-section-title">Guest Experience & Content</div>
+        <ul class="sidebar-menu">
+          <li class="active">
+            <a href="messages.html">
+              <i class="fa fa-envelope-o"></i> 
+              <span>Inquiries</span>
+              <span class="sidebar-badge danger" id="sidebar-badge-messages" style="display:none;">0</span>
+            </a>
+          </li>
+          <li><a href="blogs.html"><i class="fa fa-newspaper-o"></i> <span>News & Blog</span></a></li>
+          <li><a href="testimonials.html"><i class="fa fa-star-o"></i> <span>Reviews</span></a></li>
+          <li><a href="settings.html"><i class="fa fa-sliders"></i> <span>Hotel Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-card">
+          <img src="../img/room/avatar/avatar-1.jpg" alt="User" class="user-avatar-img">
+          <div class="user-info-text">
+            <div class="user-info-name">Administrator</div>
+            <div class="user-info-role">Superadmin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn"><i class="fa fa-bars"></i></button>
+          <div class="page-breadcrumb">
+            <h2>Customer Inquiries & Concierge Inbox</h2>
+            <div class="breadcrumb-sub">Messages submitted through contact page & event consultation forms</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-logout" title="Sign Out">
+            <i class="fa fa-power-off"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="filter-bar">
+          <div class="search-box-wrap">
+            <i class="fa fa-search"></i>
+            <input type="text" id="msgSearch" class="search-input" placeholder="Search by Sender Name, Email, or Subject...">
+          </div>
+          <div>
+            <select id="msgStatusFilter" class="filter-select">
+              <option value="all">All Inquiries</option>
+              <option value="unread">Unread Only</option>
+              <option value="read">Read</option>
+              <option value="replied">Replied</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title"><i class="fa fa-inbox"></i> Guest Inquiries Inbox (<span id="inquiryCount">0</span>)</div>
+            <button class="gold-btn-outline" onclick="loadMessages()" style="padding:4px 10px; font-size:11px;">
+              <i class="fa fa-refresh"></i> Refresh
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="sona-table">
+              <thead>
+                <tr>
+                  <th>Sender</th>
+                  <th>Contact Email</th>
+                  <th>Subject</th>
+                  <th>Date Received</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTbody">
+                <tr>
+                  <td colspan="6" style="text-align:center; padding:30px; color:#888;">
+                    <i class="fa fa-spinner fa-spin"></i> Loading messages...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Message Detail Modal -->
+  <div class="sona-modal-backdrop" id="msgModal">
+    <div class="sona-modal">
+      <div class="sona-modal-header">
+        <h3 id="msgModalSubject">Inquiry Details</h3>
+        <button class="btn-modal-close" onclick="closeModal('msgModal')">&times;</button>
+      </div>
+      <div class="sona-modal-body" id="msgModalBody">
+        <!-- Content inserted dynamically -->
+      </div>
+      <div class="sona-modal-footer">
+        <button type="button" class="gold-btn-outline" onclick="closeModal('msgModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/admin-api.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script>
+    let messagesData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMessages();
+      setupFilters();
+    });
+
+    async function loadMessages() {
+      try {
+        const res = await SonaAPI.messages.getAll();
+        if (res.success) {
+          messagesData = res.data;
+          applyFilters();
+        }
+      } catch (e) {
+        SonaAPI.showToast('Failed to load messages.', 'error');
+      }
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('msgSearch').value.toLowerCase().trim();
+      const s = document.getElementById('msgStatusFilter').value;
+
+      const filtered = messagesData.filter(m => {
+        const matchQ = !q || m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || (m.subject || '').toLowerCase().includes(q);
+        const matchS = s === 'all' || m.status === s;
+        return matchQ && matchS;
+      });
+
+      document.getElementById('inquiryCount').textContent = filtered.length;
+      renderMessages(filtered);
+    }
+
+    function renderMessages(messages) {
+      const tbody = document.getElementById('messagesTbody');
+      if (messages.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">No inquiries found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = messages.map(m => `
+        <tr style="${m.status === 'unread' ? 'background:rgba(223,169,116,0.06); font-weight:600;' : ''}">
+          <td>
+            <div style="color:var(--text-dark);">${m.name}</div>
+          </td>
+          <td><a href="mailto:${m.email}">${m.email}</a></td>
+          <td>
+            <strong>${m.subject || 'General Inquiry'}</strong>
+            <div style="font-size:12px; color:#888; font-weight:normal;">${(m.message || '').substring(0, 50)}...</div>
+          </td>
+          <td>${formatDate(m.created_at)}</td>
+          <td>
+            <span class="badge-status ${m.status === 'unread' ? 'badge-cancelled' : m.status === 'read' ? 'badge-pending' : 'badge-confirmed'}">
+              ${m.status.toUpperCase()}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-icon-action" title="Read & Reply" onclick="viewMessage(${m.id})">
+                <i class="fa fa-envelope-open-o"></i>
+              </button>
+              <button class="btn-icon-action delete" title="Delete" onclick="deleteMessage(${m.id})">
+                <i class="fa fa-trash-o"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function setupFilters() {
+      document.getElementById('msgSearch').addEventListener('input', applyFilters);
+      document.getElementById('msgStatusFilter').addEventListener('change', applyFilters);
+    }
+
+    async function viewMessage(id) {
+      try {
+        const res = await SonaAPI.messages.getById(id);
+        if (!res.success) return;
+        const m = res.data;
+
+        document.getElementById('msgModalSubject').textContent = m.subject || 'Inquiry Details';
+        document.getElementById('msgModalBody').innerHTML = `
+          <div style="background:#f9f9f9; padding:16px; border-radius:4px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong style="font-size:16px;">${m.name}</strong>
+                <div style="font-size:13px; color:#555;">${m.email}</div>
+              </div>
+              <div style="text-align:right;">
+                <span style="font-size:12px; color:#888;">${formatDate(m.created_at)}</span>
+                <div>
+                  <span class="badge-status ${m.status === 'unread' ? 'badge-cancelled' : m.status === 'read' ? 'badge-pending' : 'badge-confirmed'}">
+                    ${m.status.toUpperCase()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <label style="font-size:12px; font-weight:700; color:#888; text-transform:uppercase;">Message:</label>
+            <div style="background:#fff; border:1px solid #ddd; padding:16px; border-radius:4px; margin-top:6px; font-size:14px; line-height:1.6; white-space:pre-wrap;">
+              ${m.message}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Concierge Reply / Staff Notes</label>
+            <textarea id="reply_notes" class="form-control" rows="3" placeholder="Add internal reply notes or log communication...">${m.reply_notes || ''}</textarea>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:16px;">
+            <a href="mailto:${m.email}?subject=Re: ${encodeURIComponent(m.subject || 'Sona Luxury Hotel Inquiry')}" class="gold-btn-solid" style="flex:1; text-align:center; display:inline-block;" onclick="markReplied(${m.id})">
+              <i class="fa fa-reply"></i> Open Email Client to Reply
+            </a>
+            <button class="gold-btn-outline" onclick="saveReplyNotes(${m.id})">
+              <i class="fa fa-save"></i> Save Notes
+            </button>
+          </div>
+        `;
+
+        openModal('msgModal');
+        loadMessages(); // refresh read status
+      } catch (err) {
+        SonaAPI.showToast('Error opening message.', 'error');
+      }
+    }
+
+    async function markReplied(id) {
+      const notes = document.getElementById('reply_notes')?.value.trim();
+      try {
+        await SonaAPI.messages.updateStatus(id, 'replied', notes || 'Replied via email');
+        SonaAPI.showToast('Inquiry marked as replied.', 'success');
+        loadMessages();
+      } catch (e) {}
+    }
+
+    async function saveReplyNotes(id) {
+      const notes = document.getElementById('reply_notes').value.trim();
+      try {
+        await SonaAPI.messages.updateStatus(id, 'replied', notes);
+        SonaAPI.showToast('Inquiry status and notes saved.', 'success');
+        closeModal('msgModal');
+        loadMessages();
+      } catch (e) {
+        SonaAPI.showToast('Failed to save notes.', 'error');
+      }
+    }
+
+    async function deleteMessage(id) {
+      if (!confirm('Are you sure you want to delete this inquiry?')) return;
+      try {
+        await SonaAPI.messages.delete(id);
+        SonaAPI.showToast('Message deleted.', 'success');
+        loadMessages();
+      } catch (e) {
+        SonaAPI.showToast('Error deleting message.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
