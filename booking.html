@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Sona Luxury Hotel - Book Your Stay">
+    <meta name="keywords" content="Sona, hotel booking, luxury hotel, suites, reservation">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sona Luxury Hotel | Room Reservation</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/flaticon.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <style>
+        .booking-page-section {
+            background-color: #fbfbfb;
+            padding-top: 60px;
+            padding-bottom: 90px;
+        }
+
+        .booking-card-main {
+            background: #ffffff;
+            border: 1px solid #ebebeb;
+            border-radius: 4px;
+            padding: 35px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
+        }
+
+        .booking-step-title {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            color: #19191a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #dfa974;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .booking-step-title .step-num {
+            background: #dfa974;
+            color: #111;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Cabin', sans-serif;
+        }
+
+        .booking-form-group {
+            margin-bottom: 20px;
+        }
+
+        .booking-form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .booking-form-control {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #dcdcdc;
+            border-radius: 3px;
+            padding: 0 16px;
+            font-size: 15px;
+            color: #19191a;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .booking-form-control:focus {
+            border-color: #dfa974;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(223, 169, 116, 0.2);
+        }
+
+        textarea.booking-form-control {
+            height: auto;
+            min-height: 90px;
+            padding: 12px 16px;
+        }
+
+        .selected-room-banner {
+            display: flex;
+            gap: 20px;
+            background: #fdfaf6;
+            border: 1px solid rgba(223, 169, 116, 0.3);
+            border-radius: 4px;
+            padding: 18px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .srb-img {
+            width: 130px;
+            height: 90px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .srb-info h4 {
+            font-size: 18px;
+            font-family: 'Lora', serif;
+            margin-bottom: 4px;
+        }
+
+        .srb-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #dfa974;
+            margin-bottom: 4px;
+        }
+
+        .srb-meta {
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* Summary Sidebar */
+        .summary-sticky-card {
+            background: #19191a;
+            color: #fff;
+            border-radius: 4px;
+            padding: 30px;
+            border: 1px solid rgba(223, 169, 116, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            position: sticky;
+            top: 30px;
+        }
+
+        .summary-title {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            color: #dfa974;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #ccc;
+        }
+
+        .summary-item-row strong {
+            color: #fff;
+        }
+
+        .summary-total-box {
+            background: #252528;
+            border-top: 1px dashed rgba(223, 169, 116, 0.4);
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 4px;
+        }
+
+        .summary-total-price {
+            font-family: 'Lora', serif;
+            font-size: 26px;
+            color: #dfa974;
+            font-weight: 700;
+        }
+
+        .summary-features-list {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+            list-style: none;
+            line-height: 1.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 15px;
+        }
+
+        .summary-features-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-features-list li i {
+            color: #dfa974;
+        }
+
+        /* Success Voucher */
+        .booking-success-box {
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #dfa974;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            display: none;
+        }
+
+        .voucher-badge {
+            background: #dfa974;
+            color: #111;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: 'Cabin', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            display: inline-block;
+            margin: 15px 0 25px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Section Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="canvas-open">
+        <i class="icon_menu"></i>
+    </div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="canvas-close">
+            <i class="icon_close"></i>
+        </div>
+        <div class="search-icon search-switch">
+            <i class="icon_search"></i>
+        </div>
+        <div class="header-configure-area">
+            <a href="admin/login.html" class="bk-btn" style="background: #19191a; border: 1px solid #dfa974; color: #dfa974; margin-right: 8px;"><i class="fa fa-lock"></i> Sign In</a>
+            <a href="./booking.html" class="bk-btn">Booking Now</a>
+        </div>
+        <nav class="mainmenu mobile-menu">
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./rooms.html">Rooms</a></li>
+                <li><a href="./about-us.html">About Us</a></li>
+                <li><a href="./pages.html">Pages</a>
+                    <ul class="dropdown">
+                        <li><a href="./room-details.html">Room Details</a></li>
+                        <li><a href="./blog-details.html">Blog Details</a></li>
+                    </ul>
+                </li>
+                <li><a href="./blog.html">News</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li class="active"><a href="./booking.html">Booking</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="top-social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-tripadvisor"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </div>
+        <ul class="top-widget">
+            <li><i class="fa fa-phone"></i> (12) 345 67890</li>
+            <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
+        </ul>
+    </div>
+    <!-- Offcanvas Menu Section End -->
+
+    <!-- Header Section Begin -->
+    <header class="header-section header-normal">
+        <div class="top-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="tn-left">
+                            <li><i class="fa fa-phone"></i> (12) 345 67890</li>
+                            <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="tn-right">
+                            <div class="top-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-tripadvisor"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                            </div>
+                            <a href="admin/login.html" class="bk-btn" style="background: #19191a; border: 1px solid #dfa974; color: #dfa974; margin-right: 8px;"><i class="fa fa-lock"></i> Sign In</a>
+                            <a href="./booking.html" class="bk-btn">Booking Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="logo">
+                            <a href="./index.html">
+                                <img src="img/logo.png" alt="Sona Hotel">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="nav-menu">
+                            <nav class="mainmenu">
+                                <ul>
+                                    <li><a href="./index.html">Home</a></li>
+                                    <li><a href="./rooms.html">Rooms</a></li>
+                                    <li><a href="./about-us.html">About Us</a></li>
+                                    <li><a href="./pages.html">Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a href="./room-details.html">Room Details</a></li>
+                                            <li><a href="./blog-details.html">Blog Details</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="./blog.html">News</a></li>
+                                    <li><a href="./contact.html">Contact</a></li>
+                                    <li class="active"><a href="./booking.html">Booking</a></li>
+                                </ul>
+                            </nav>
+                            <div class="nav-right search-switch">
+                                <i class="icon_search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>Room Reservation</h2>
+                        <div class="bt-option">
+                            <a href="./index.html">Home</a>
+                            <span>Book Your Stay</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Booking Main Section Begin -->
+    <section class="booking-page-section">
+        <div class="container">
+            <!-- Reservation Form Section -->
+            <div class="row" id="reservationFormWrapper">
+                <!-- Left Form Column -->
+                <div class="col-lg-7">
+                    <form id="dedicatedBookingForm">
+                        <!-- Step 1: Room & Schedule -->
+                        <div class="booking-card-main">
+                            <div class="booking-step-title">
+                                <span class="step-num">1</span> Stay Schedule & Suite
+                            </div>
+
+                            <div class="booking-form-group">
+                                <label for="book_room_id">Select Room / Suite*</label>
+                                <select id="book_room_id" class="booking-form-control" required>
+                                    <option value="">Loading hotel rooms...</option>
+                                </select>
+                            </div>
+
+                            <!-- Selected Room Banner -->
+                            <div class="selected-room-banner" id="roomBanner" style="display:none;">
+                                <img src="img/room/room-1.jpg" id="bannerImg" class="srb-img" alt="Room preview">
+                                <div class="srb-info">
+                                    <h4 id="bannerTitle">Double Room</h4>
+                                    <div class="srb-price" id="bannerPrice">$199.00 / night</div>
+                                    <div class="srb-meta" id="bannerMeta">King Bed • Max 4 Persons • Wifi, AC</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="booking-form-group">
+                                        <label for="book_checkin"><i class="fa fa-calendar"></i> Check-In Date*</label>
+                                        <input type="date" id="book_checkin" class="booking-form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="booking-form-group">
+                                        <label for="book_checkout"><i class="fa fa-calendar"></i> Check-Out Date*</label>
+                                        <input type="date" id="book_checkout" class="booking-form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="booking-form-group">
+                                        <label for="book_adults">Adults</label>
+                                        <select id="book_adults" class="booking-form-control">
+                                            <option value="1">1 Adult</option>
+                                            <option value="2" selected>2 Adults</option>
+                                            <option value="3">3 Adults</option>
+                                            <option value="4">4 Adults</option>
+                                            <option value="5">5+ Adults</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="booking-form-group">
+                                        <label for="book_children">Children</label>
+                                        <select id="book_children" class="booking-form-control">
+                                            <option value="0" selected>0 Children</option>
+                                            <option value="1">1 Child</option>
+                                            <option value="2">2 Children</option>
+                                            <option value="3">3 Children</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="booking-form-group">
+                                        <label for="book_rooms_count">Rooms</label>
+                                        <select id="book_rooms_count" class="booking-form-control">
+                                            <option value="1" selected>1 Room</option>
+                                            <option value="2">2 Rooms</option>
+                                            <option value="3">3 Rooms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Guest Information -->
+                        <div class="booking-card-main">
+                            <div class="booking-step-title">
+                                <span class="step-num">2</span> Primary Guest Details
+                            </div>
+
+                            <div class="booking-form-group">
+                                <label for="book_guest_name">Full Name*</label>
+                                <input type="text" id="book_guest_name" class="booking-form-control" placeholder="e.g. Alexander Hamilton" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="booking-form-group">
+                                        <label for="book_guest_email">Email Address* (for confirmation)</label>
+                                        <input type="email" id="book_guest_email" class="booking-form-control" placeholder="alexander@example.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="booking-form-group">
+                                        <label for="book_guest_phone">Phone / Mobile*</label>
+                                        <input type="tel" id="book_guest_phone" class="booking-form-control" placeholder="+1 (555) 012-3456" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="booking-form-group">
+                                <label for="book_requests">Special Requests / Arrival Notes</label>
+                                <textarea id="book_requests" class="booking-form-control" placeholder="Airport pick-up, high floor room, honeymoon package, dietary requirements..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Payment Option -->
+                        <div class="booking-card-main">
+                            <div class="booking-step-title">
+                                <span class="step-num">3</span> Payment Guarantee
+                            </div>
+
+                            <div style="margin-bottom: 18px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 12px;">
+                                    <input type="radio" name="payment_choice" value="Pay at Hotel" checked style="accent-color: #dfa974; width: 18px; height: 18px;">
+                                    <span style="font-weight: 600; color: #19191a; font-size: 15px;">Pay at Hotel upon Arrival</span>
+                                    <span style="font-size: 12px; color: #777;">(Cash or Credit Card at check-in)</span>
+                                </label>
+
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="payment_choice" value="Credit Card Guarantee" style="accent-color: #dfa974; width: 18px; height: 18px;">
+                                    <span style="font-weight: 600; color: #19191a; font-size: 15px;">Credit / Debit Card Online Guarantee</span>
+                                </label>
+                            </div>
+
+                            <div id="cardDetailsBox" style="display: none; background: #fafafa; border: 1px solid #ebebeb; padding: 20px; border-radius: 4px; margin-top: 15px;">
+                                <div class="booking-form-group">
+                                    <label>Cardholder Name</label>
+                                    <input type="text" class="booking-form-control" placeholder="Name on card">
+                                </div>
+                                <div class="booking-form-group">
+                                    <label>Card Number</label>
+                                    <input type="text" class="booking-form-control" placeholder="•••• •••• •••• ••••" maxlength="19">
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="booking-form-group">
+                                            <label>Expiry (MM/YY)</label>
+                                            <input type="text" class="booking-form-control" placeholder="MM/YY">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="booking-form-group">
+                                            <label>CVV</label>
+                                            <input type="password" class="booking-form-control" placeholder="•••" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnSubmitBooking" class="primary-btn" style="width: 100%; border: none; padding: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 15px; cursor: pointer;">
+                                <i class="fa fa-lock"></i> Complete & Confirm Reservation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Live Summary Column -->
+                <div class="col-lg-5">
+                    <div class="summary-sticky-card">
+                        <div class="summary-title">
+                            <i class="fa fa-calendar-check-o"></i> Reservation Summary
+                        </div>
+
+                        <div class="summary-item-row">
+                            <span>Selected Suite:</span>
+                            <strong id="sumRoomName">-</strong>
+                        </div>
+                        <div class="summary-item-row">
+                            <span>Check-In:</span>
+                            <strong id="sumCheckIn">-</strong>
+                        </div>
+                        <div class="summary-item-row">
+                            <span>Check-Out:</span>
+                            <strong id="sumCheckOut">-</strong>
+                        </div>
+                        <div class="summary-item-row">
+                            <span>Duration:</span>
+                            <strong id="sumNights">0 Nights</strong>
+                        </div>
+                        <div class="summary-item-row">
+                            <span>Guests:</span>
+                            <strong id="sumParty">2 Adults</strong>
+                        </div>
+
+                        <div class="summary-total-box">
+                            <div class="summary-item-row">
+                                <span>Room Rate:</span>
+                                <span id="sumRateDetail">$0.00 x 0 nights</span>
+                            </div>
+                            <div class="summary-item-row">
+                                <span>Subtotal:</span>
+                                <span id="sumSubtotal">$0.00</span>
+                            </div>
+                            <div class="summary-item-row">
+                                <span>Hospitality Tax (12%):</span>
+                                <span id="sumTax">$0.00</span>
+                            </div>
+                            <div class="summary-item-row" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; font-size: 16px;">
+                                <span style="font-weight: 600; color: #fff;">Estimated Total:</span>
+                                <span class="summary-total-price" id="sumTotal">$0.00</span>
+                            </div>
+                        </div>
+
+                        <ul class="summary-features-list">
+                            <li><i class="fa fa-shield"></i> Instant Booking Confirmation & ID</li>
+                            <li><i class="fa fa-clock-o"></i> Check-in: 15:00 | Check-out: 11:00</li>
+                            <li><i class="fa fa-check-circle"></i> Free cancellation up to 48 hours prior</li>
+                            <li><i class="fa fa-tag"></i> Best Rate Guarantee Direct with Sona</li>
+                        </ul>
+
+                        <div style="background: rgba(223, 169, 116, 0.1); border: 1px solid rgba(223, 169, 116, 0.25); border-radius: 4px; padding: 14px; margin-top: 20px; font-size: 13px; color: #eee;">
+                            <div style="color: #dfa974; font-weight: 700; margin-bottom: 2px;"><i class="fa fa-phone"></i> Need Assistance?</div>
+                            <div>Call Concierge Desk 24/7 at <strong>(12) 345 67890</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirmation Voucher (Displayed on Success) -->
+            <div id="bookingConfirmationVoucher" class="booking-success-box">
+                <div style="width: 70px; height: 70px; background: rgba(223,169,116,0.15); color: #dfa974; border: 2px solid #dfa974; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px auto;">
+                    <i class="fa fa-check"></i>
+                </div>
+                <h2 style="font-family:'Lora',serif; color:#19191a; margin-bottom: 10px;">Reservation Confirmed!</h2>
+                <p style="color: #666; font-size: 16px;">Thank you, <strong id="vGuestName">Guest</strong>. Your booking has been registered in our central reservation system.</p>
+                
+                <div>
+                    <span style="font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: #888;">Booking Reference Code:</span><br>
+                    <div class="voucher-badge" id="vRefCode">BK-SONA-XXXXX</div>
+                </div>
+
+                <div style="max-width: 600px; margin: 0 auto 30px auto; background: #fdfaf6; border: 1px solid rgba(223,169,116,0.3); border-radius: 4px; padding: 25px; text-align: left; line-height: 1.8;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span style="font-size: 12px; color: #888; text-transform: uppercase;">Room Reserved:</span>
+                            <div style="font-weight: 700; font-size: 16px; color: #19191a;" id="vRoomName">-</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span style="font-size: 12px; color: #888; text-transform: uppercase;">Length of Stay:</span>
+                            <div style="font-weight: 700; font-size: 16px; color: #19191a;" id="vNights">-</div>
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px dashed rgba(223,169,116,0.4); margin: 15px 0;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span style="font-size: 12px; color: #888; text-transform: uppercase;">Check-In:</span>
+                            <div id="vCheckIn" style="font-weight: 600;">-</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span style="font-size: 12px; color: #888; text-transform: uppercase;">Check-Out:</span>
+                            <div id="vCheckOut" style="font-weight: 600;">-</div>
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px dashed rgba(223,169,116,0.4); margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 18px;">
+                        <span>Total Payable:</span>
+                        <strong style="color: #dfa974; font-family:'Lora',serif;" id="vTotalAmount">$0.00</strong>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button onclick="window.print()" class="primary-btn" style="border: 1px solid #dfa974; background: #fff; color: #19191a; padding: 12px 28px; cursor: pointer;">
+                        <i class="fa fa-print"></i> Print Receipt
+                    </button>
+                    <a href="./index.html" class="primary-btn" style="padding: 12px 28px;">
+                        Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Booking Main Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-text">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="ft-about">
+                            <div class="logo">
+                                <a href="#">
+                                    <img src="img/footer-logo.png" alt="Sona Hotel">
+                                </a>
+                            </div>
+                            <p>We inspire and reach millions of travelers<br /> across 90 local websites</p>
+                            <div class="fa-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-tripadvisor"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="ft-contact">
+                            <h6>Contact Us</h6>
+                            <ul>
+                                <li>(12) 345 67890</li>
+                                <li>info.colorlib@gmail.com</li>
+                                <li>856 Cordia Extension Apt. 356, Lake, United State</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="ft-newslatter">
+                            <h6>New latest</h6>
+                            <p>Get the latest updates and offers.</p>
+                            <form action="#" class="fn-form">
+                                <input type="text" placeholder="Email">
+                                <button type="submit"><i class="fa fa-send"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <ul>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Terms of use</a></li>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Environmental Policy</a></li>
+                            <li><a href="admin/login.html" style="color: #dfa974;"><i class="fa fa-lock"></i> Staff Login</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="co-text">
+                            <p>
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | Sona Luxury Hotel
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Booking Page Interactive Logic -->
+    <script>
+        const API_URL = window.location.origin.includes(':5000') 
+            ? '/api/public' 
+            : 'http://localhost:5000/api/public';
+
+        let availableRooms = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchRoomsCatalog();
+            initializeDatesFromParams();
+            setupLiveSummaryUpdates();
+            setupPaymentToggle();
+            setupBookingFormSubmit();
+        });
+
+        // 1. Fetch Rooms from MySQL API
+        async function fetchRoomsCatalog() {
+            try {
+                const res = await fetch(`${API_URL}/rooms`);
+                const json = await res.json();
+                if (json.success && json.data) {
+                    availableRooms = json.data;
+                    populateRoomsDropdown(availableRooms);
+                }
+            } catch (err) {
+                console.error('Failed to load rooms:', err);
+            }
+        }
+
+        function populateRoomsDropdown(rooms) {
+            const select = document.getElementById('book_room_id');
+            select.innerHTML = '<option value="">-- Choose your preferred room or suite --</option>';
+            rooms.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r.id;
+                opt.textContent = `${r.name} ($${parseFloat(r.price_per_night).toFixed(2)}/night) - ${r.category}`;
+                select.appendChild(opt);
+            });
+
+            // Check if pre-selected from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const preselectedRoom = urlParams.get('room_id') || urlParams.get('room');
+            if (preselectedRoom) {
+                const matched = rooms.find(r => r.id == preselectedRoom || r.slug == preselectedRoom);
+                if (matched) {
+                    select.value = matched.id;
+                }
+            } else if (rooms.length > 0) {
+                select.value = rooms[0].id;
+            }
+
+            updateSelectedRoomBanner();
+            updatePriceCalculation();
+        }
+
+        // 2. Pre-fill dates from URL params or default to today/tomorrow
+        function initializeDatesFromParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const inParam = urlParams.get('check_in') || urlParams.get('checkin');
+            const outParam = urlParams.get('check_out') || urlParams.get('checkout');
+            const guestParam = urlParams.get('guests');
+            const roomsParam = urlParams.get('rooms');
+
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 2);
+
+            const formatDateValue = (d) => {
+                if (!d) return '';
+                try {
+                    const parsed = new Date(d);
+                    if (!isNaN(parsed.getTime())) {
+                        return parsed.toISOString().split('T')[0];
+                    }
+                } catch(e) {}
+                return '';
+            };
+
+            document.getElementById('book_checkin').value = formatDateValue(inParam) || today.toISOString().split('T')[0];
+            document.getElementById('book_checkout').value = formatDateValue(outParam) || tomorrow.toISOString().split('T')[0];
+
+            if (guestParam) {
+                const num = parseInt(guestParam, 10);
+                if (!isNaN(num) && num >= 1 && num <= 5) {
+                    document.getElementById('book_adults').value = num;
+                }
+            }
+
+            if (roomsParam) {
+                const num = parseInt(roomsParam, 10);
+                if (!isNaN(num) && num >= 1 && num <= 3) {
+                    document.getElementById('book_rooms_count').value = num;
+                }
+            }
+        }
+
+        // 3. Live calculations and summary box updates
+        function setupLiveSummaryUpdates() {
+            const inputs = ['book_room_id', 'book_checkin', 'book_checkout', 'book_adults', 'book_children', 'book_rooms_count'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', () => {
+                        updateSelectedRoomBanner();
+                        updatePriceCalculation();
+                    });
+                }
+            });
+        }
+
+        function getSelectedRoom() {
+            const roomId = document.getElementById('book_room_id').value;
+            return availableRooms.find(r => r.id == roomId);
+        }
+
+        function updateSelectedRoomBanner() {
+            const room = getSelectedRoom();
+            const banner = document.getElementById('roomBanner');
+            if (!room) {
+                banner.style.display = 'none';
+                return;
+            }
+
+            banner.style.display = 'flex';
+            document.getElementById('bannerTitle').textContent = room.name;
+            document.getElementById('bannerPrice').textContent = `$${parseFloat(room.price_per_night).toFixed(2)} / night`;
+            document.getElementById('bannerMeta').textContent = `${room.bed_type} • Max ${room.capacity} Persons • ${room.services || 'Wifi, Bath'}`;
+
+            const imgSrc = room.image_url.startsWith('http') || room.image_url.startsWith('/') 
+                ? room.image_url 
+                : room.image_url;
+            document.getElementById('bannerImg').src = imgSrc;
+        }
+
+        function calculateNights(startStr, endStr) {
+            const start = new Date(startStr);
+            const end = new Date(endStr);
+            if (isNaN(start) || isNaN(end) || end <= start) return 1;
+            const diff = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
+            return diff > 0 ? diff : 1;
+        }
+
+        function formatDisplayDate(dateStr) {
+            if (!dateStr) return '-';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function updatePriceCalculation() {
+            const room = getSelectedRoom();
+            const checkinVal = document.getElementById('book_checkin').value;
+            const checkoutVal = document.getElementById('book_checkout').value;
+            const adults = document.getElementById('book_adults').value;
+            const roomsCount = parseInt(document.getElementById('book_rooms_count').value, 10) || 1;
+
+            const nights = calculateNights(checkinVal, checkoutVal);
+            const rate = room ? parseFloat(room.price_per_night) : 0;
+            const subtotal = rate * nights * roomsCount;
+            const tax = subtotal * 0.12;
+            const total = subtotal + tax;
+
+            document.getElementById('sumRoomName').textContent = room ? room.name : 'Select Room';
+            document.getElementById('sumCheckIn').textContent = formatDisplayDate(checkinVal);
+            document.getElementById('sumCheckOut').textContent = formatDisplayDate(checkoutVal);
+            document.getElementById('sumNights').textContent = `${nights} Night${nights > 1 ? 's' : ''}`;
+            document.getElementById('sumParty').textContent = `${adults} Adults (${roomsCount} Room${roomsCount > 1 ? 's' : ''})`;
+
+            document.getElementById('sumRateDetail').textContent = `$${rate.toFixed(2)} x ${nights} night${nights > 1 ? 's' : ''}`;
+            document.getElementById('sumSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('sumTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('sumTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function setupPaymentToggle() {
+            const radios = document.querySelectorAll('input[name="payment_choice"]');
+            const cardBox = document.getElementById('cardDetailsBox');
+            radios.forEach(r => {
+                r.addEventListener('change', (e) => {
+                    cardBox.style.display = e.target.value.includes('Card') ? 'block' : 'none';
+                });
+            });
+        }
+
+        // 4. Form Submission Handler
+        function setupBookingFormSubmit() {
+            const form = document.getElementById('dedicatedBookingForm');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const room = getSelectedRoom();
+                if (!room) {
+                    alert('Please select a suite to continue.');
+                    return;
+                }
+
+                const checkin = document.getElementById('book_checkin').value;
+                const checkout = document.getElementById('book_checkout').value;
+                if (new Date(checkout) <= new Date(checkin)) {
+                    alert('Check-out date must be after check-in date.');
+                    return;
+                }
+
+                const submitBtn = document.getElementById('btnSubmitBooking');
+                const origHtml = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing Reservation...';
+
+                const payload = {
+                    room_id: room.id,
+                    guest_name: document.getElementById('book_guest_name').value.trim(),
+                    guest_email: document.getElementById('book_guest_email').value.trim(),
+                    guest_phone: document.getElementById('book_guest_phone').value.trim(),
+                    check_in: checkin,
+                    check_out: checkout,
+                    adults: parseInt(document.getElementById('book_adults').value, 10),
+                    children: parseInt(document.getElementById('book_children').value, 10),
+                    room_count: parseInt(document.getElementById('book_rooms_count').value, 10),
+                    payment_method: document.querySelector('input[name="payment_choice"]:checked').value,
+                    special_requests: document.getElementById('book_requests').value.trim()
+                };
+
+                try {
+                    const res = await fetch(`${API_URL}/bookings`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const json = await res.json();
+
+                    if (res.ok && json.success) {
+                        displayConfirmationVoucher(json.data, payload);
+                    } else {
+                        alert('Reservation error: ' + (json.message || 'Please review your booking details.'));
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = origHtml;
+                    }
+                } catch (err) {
+                    alert('Could not connect to reservation server. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = origHtml;
+                }
+            });
+        }
+
+        function displayConfirmationVoucher(booking, reqData) {
+            document.getElementById('reservationFormWrapper').style.display = 'none';
+            const voucher = document.getElementById('bookingConfirmationVoucher');
+            voucher.style.display = 'block';
+
+            document.getElementById('vGuestName').textContent = reqData.guest_name;
+            document.getElementById('vRefCode').textContent = booking.reference;
+            document.getElementById('vRoomName').textContent = booking.roomName;
+            document.getElementById('vNights').textContent = `${booking.nights} Nights (${reqData.adults} Adults)`;
+            document.getElementById('vCheckIn').textContent = formatDisplayDate(booking.checkIn);
+            document.getElementById('vCheckOut').textContent = formatDisplayDate(booking.checkOut);
+            document.getElementById('vTotalAmount').textContent = `$${parseFloat(booking.totalAmount).toFixed(2)}`;
+
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
