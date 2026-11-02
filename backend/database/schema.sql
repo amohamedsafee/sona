@@ -8,6 +8,8 @@ CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE `sona_hotel_db`;
 
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------------------------------------
 -- 1. Admins / System Users Table
 -- ----------------------------------------------------------
@@ -169,3 +171,5 @@ CREATE TABLE `activity_logs` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_activity_admin` FOREIGN KEY (`admin_id`) REFERENCES `admins` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SET FOREIGN_KEY_CHECKS = 1;

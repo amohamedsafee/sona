@@ -1,0 +1,9 @@
+{
+  "name": "sona-hotel",
+  "version": "1.0.0",
+  "description": "Sona Luxury Hotel - Full-Stack Hotel Reservation & Management System",
+  "scripts": {
+    "start": "npm start --prefix backend",
+    "init-db": "npm run init-db --prefix backend"
+  }
+}
