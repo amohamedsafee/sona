@@ -1,0 +1,148 @@
+================================================================================
+          SONA LUXURY HOTEL RESERVATION & MANAGEMENT SYSTEM
+                             START GUIDE
+================================================================================
+
+This guide contains complete step-by-step instructions to run both the 
+Frontend Guest Website, Backend Node.js/Express API, and the Admin Portal.
+
+--------------------------------------------------------------------------------
+1. SYSTEM PREREQUISITES
+--------------------------------------------------------------------------------
+- Node.js (v18 or higher installed on your machine)
+- XAMPP / MySQL Server (installed at C:\xampp)
+- Web Browser: Google Chrome, Mozilla Firefox, or Microsoft Edge
+
+--------------------------------------------------------------------------------
+2. STEP-BY-STEP STARTUP INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+STEP 1: START THE MYSQL DATABASE SERVICE
+----------------------------------------
+Before launching the server, MySQL must be active on port 3306.
+
+Option A (Recommended - XAMPP GUI):
+1. Open XAMPP Control Panel (C:\xampp\xampp-control.exe).
+2. Click the "Start" button next to MySQL.
+3. Verify that the MySQL status turns green and port 3306 is active.
+
+Option B (PowerShell Command Line):
+Open PowerShell and run:
+Start-Process -FilePath "C:\xampp\mysql\bin\mysqld.exe" -ArgumentList "--defaults-file=mysql\bin\my.ini --standalone" -WorkingDirectory "C:\xampp" -WindowStyle Hidden
+
+
+STEP 2: INITIALIZE / RESET DATABASE (FIRST TIME ONLY)
+----------------------------------------------------
+This script creates the `sona_hotel_db` database, sets up all relational 
+tables (rooms, bookings, admins, messages), and seeds initial room & admin data.
+
+In the project root folder (D:\HTML\sona), open a terminal and run:
+   npm run init-db
+
+(Alternative: navigate to backend folder: cd backend && node database/init-db.js)
+
+Expected output:
+   [Database] Connected to MySQL server successfully.
+   [Database] Schema applied successfully.
+   [Database] Seed data inserted successfully.
+
+
+STEP 3: START THE APPLICATION SERVER
+------------------------------------
+In the project root folder (D:\HTML\sona), run:
+   npm start
+
+(Alternative: navigate to backend folder: cd backend && node server.js)
+
+When started successfully, you will see:
+====================================================
+ Sona Luxury Hotel Backend Server
+ Server running on: http://localhost:5000
+ Admin Panel URL:   http://localhost:5000/admin/
+ Website Homepage:  http://localhost:5000/index.html
+ API Endpoint:      http://localhost:5000/api/health
+====================================================
+[Database] Successfully connected to MySQL database: sona_hotel_db
+
+Keep this terminal window open while using the application.
+
+--------------------------------------------------------------------------------
+3. APPLICATION ACCESS URLS
+--------------------------------------------------------------------------------
+
+GUEST FRONTEND (PUBLIC):
+- Homepage:             http://localhost:5000/index.html
+- Room Catalog:         http://localhost:5000/rooms.html
+- Room Details:         http://localhost:5000/room-details.html
+- Online Booking:       http://localhost:5000/booking.html
+- About Us:             http://localhost:5000/about-us.html
+- Contact Page:         http://localhost:5000/contact.html
+
+ADMINISTRATION PORTAL:
+- Admin Login Page:     http://localhost:5000/admin/login.html
+- Admin Dashboard:      http://localhost:5000/admin/index.html
+- Manage Bookings:      http://localhost:5000/admin/bookings.html
+- Manage Rooms:         http://localhost:5000/admin/rooms.html
+- Contact Inquiries:    http://localhost:5000/admin/messages.html
+
+DEFAULT ADMIN CREDENTIALS:
+- Username:  admin
+- Password:  admin123
+
+COLLEGE DIARY PROOF PREVIEW:
+- Weekly Preview Tool:  D:\HTML\sona\weekly_summary.html
+  (Double-click or open directly in browser for diary screenshot proof)
+
+--------------------------------------------------------------------------------
+4. SYSTEM ARCHITECTURE & FOLDER STRUCTURE
+--------------------------------------------------------------------------------
+D:\HTML\sona\
+│
+├── frontend/               --> Guest-facing website HTML, CSS, JS, Images
+│   ├── index.html          --> Main landing page & hero booking form
+│   ├── rooms.html          --> Dynamic room catalog & category filters
+│   ├── booking.html        --> Multi-step reservation wizard
+│   ├── room-details.html   --> Individual room overview
+│   ├── contact.html        --> Guest inquiry form
+│   ├── css/                --> Custom stylesheets & Bootstrap
+│   ├── js/                 --> Client logic (main.js, site-backend.js)
+│   └── img/                --> Room photos, hero banners, and logos
+│
+├── admin/                  --> Management portal (Dashboard, Bookings, Rooms)
+│   ├── index.html          --> Admin statistics & recent reservations
+│   ├── login.html          --> Secure admin authentication
+│   ├── bookings.html       --> Live booking ledger with status controls
+│   ├── rooms.html          --> Add/Edit/Delete room inventory
+│   └── js/                 --> Admin API communication logic
+│
+├── backend/                --> Node.js & Express REST API server
+│   ├── server.js           --> Main backend server entry point (Port 5000)
+│   ├── .env                --> Database & port configurations
+│   ├── database/           --> schema.sql, seed.sql, and init-db.js
+│   ├── routes/             --> Public & Admin API endpoints
+│   ├── controllers/        --> Business logic for bookings & rooms
+│   └── middleware/         --> Authentication & input validation
+│
+├── start guide.txt         --> This startup guide
+├── weekly_summary.html     --> NAITA logbook visual verification preview
+├── COLLEGE_DAILY_DIARY.md  --> Official 10-week NAITA training documentation
+└── package.json            --> Root npm scripts (npm start, npm run init-db)
+
+--------------------------------------------------------------------------------
+5. COMMON TROUBLESHOOTING
+--------------------------------------------------------------------------------
+Problem: "ECONNREFUSED 127.0.0.1:3306"
+Solution: MySQL is not running. Open XAMPP Control Panel and start MySQL.
+
+Problem: "Port 5000 is already in use"
+Solution: Stop any existing Node processes in Task Manager or run:
+Stop-Process -Name node -Force
+
+Problem: "npm start does not find backend"
+Solution: Ensure you run the command from the root folder (D:\HTML\sona).
+Alternatively: cd D:\HTML\sona\backend && node server.js
+
+--------------------------------------------------------------------------------
+To shut down the project when finished:
+Press CTRL + C in the terminal running the server, then stop MySQL in XAMPP.
+================================================================================

@@ -29,7 +29,7 @@
     <aside class="admin-sidebar">
       <div class="sidebar-header">
         <a href="index.html" class="logo">
-          <img src="../img/logo.png" alt="Sona Hotel">
+          <img src="../img/footer-logo.png" alt="Sona Hotel">
         </a>
         <div class="brand-subtitle">Executive Suite</div>
       </div>
@@ -119,7 +119,7 @@
           </div>
           <div class="kpi-card info">
             <div class="kpi-title">Average Room Rate</div>
-            <div class="kpi-value" id="stats-avg-price">$0</div>
+            <div class="kpi-value" id="stats-avg-price">LKR 0</div>
             <div class="kpi-footer-text">Nightly average across suites</div>
           </div>
         </div>
@@ -187,8 +187,8 @@
 
           <div class="form-grid-2">
             <div class="form-group">
-              <label>Price Per Night ($)*</label>
-              <input type="number" step="0.01" id="r_price" class="form-control" required placeholder="199.00">
+              <label>Price Per Night (LKR)*</label>
+              <input type="number" step="0.01" id="r_price" class="form-control" required placeholder="59700.00">
             </div>
             <div class="form-group">
               <label>Size (sqft / ft)</label>
@@ -301,7 +301,7 @@
           <div class="room-admin-card">
             <div class="room-card-img-wrap">
               <img src="${imgSrc}" alt="${r.name}" onerror="this.src='../img/room/room-1.jpg'">
-              <div class="room-price-tag">$${parseFloat(r.price_per_night).toFixed(0)} <span style="font-size:11px; font-weight:normal;">/night</span></div>
+              <div class="room-price-tag">LKR ${parseFloat(r.price_per_night).toLocaleString('en-US', {minimumFractionDigits: 2})} <span style="font-size:11px; font-weight:normal;">/night</span></div>
             </div>
 
             <div class="room-card-body">

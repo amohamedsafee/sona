@@ -104,13 +104,18 @@ const SonaAPI = {
       const data = await response.json().catch(() => ({}));
 
       if (response.status === 401) {
-        this.showToast('Session expired. Please sign in again.', 'warning');
-        setTimeout(() => this.logout(), 1000);
-        throw new Error('Unauthorized');
+        if (endpoint !== '/auth/login') {
+          this.showToast('Session expired. Please sign in again.', 'warning');
+          setTimeout(() => this.logout(), 1000);
+          throw new Error('Unauthorized');
+        } else {
+          throw new Error(data.message || 'Invalid username/email or password.');
+        }
       }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Request failed with status ' + response.status);
+        const errorMsg = data.error ? `${data.message} (${data.error})` : (data.message || 'Request failed with status ' + response.status);
+        throw new Error(errorMsg);
       }
 
       return data;

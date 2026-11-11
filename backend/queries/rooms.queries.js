@@ -19,6 +19,14 @@ module.exports = {
     ORDER BY id ASC
   `,
 
+  // Get all active rooms for public rooms catalog
+  GET_PUBLIC_ROOMS: `
+    SELECT *
+    FROM rooms
+    WHERE status != 'maintenance'
+    ORDER BY is_featured DESC, id ASC
+  `,
+
   // Get single room by ID
   GET_ROOM_BY_ID: `
     SELECT *

@@ -10,7 +10,7 @@ USE `sona_hotel_db`;
 -- ----------------------------------------------------------
 INSERT INTO `admins` (`username`, `email`, `password_hash`, `full_name`, `role`, `phone`)
 VALUES
-('admin', 'admin@sona.com', '$2b$10$R0nVBEJwh9ECrhWvlR7Vd.fkNRkRA0Wc.HLhdCuOTYKxlpMXns4dO', 'Master Administrator', 'superadmin', '+1 (12) 345 67890'),
+('admin', 'info.sona@gmail.com', '$2b$10$R0nVBEJwh9ECrhWvlR7Vd.fkNRkRA0Wc.HLhdCuOTYKxlpMXns4dO', 'Master Administrator', 'superadmin', '+1 (12) 345 67890'),
 ('reception', 'reception@sona.com', '$2b$10$R0nVBEJwh9ECrhWvlR7Vd.fkNRkRA0Wc.HLhdCuOTYKxlpMXns4dO', 'Front Desk Staff', 'receptionist', '+1 (12) 345 67891');
 
 -- ----------------------------------------------------------
@@ -18,12 +18,12 @@ VALUES
 -- ----------------------------------------------------------
 INSERT INTO `rooms` (`name`, `slug`, `category`, `price_per_night`, `size_sqft`, `capacity`, `bed_type`, `services`, `description`, `image_url`, `status`, `is_featured`, `total_rooms`)
 VALUES
-('Double Room', 'double-room', 'Double', 199.00, 30, 4, 'King Beds', 'Wifi, Television, Bathroom, Mini Bar', 'Spacious double room with contemporary decor, plush bedding, ambient lighting, and panoramic city views.', 'img/room/room-b1.jpg', 'available', 1, 8),
-('Premium King Room', 'premium-king-room', 'Premium', 159.00, 35, 5, 'King Beds', 'Wifi, Television, Bathroom, Jacuzzi, Balcony', 'Experience luxury with an expansive suite featuring a king-size bed, private marble bath, and balcony.', 'img/room/room-b2.jpg', 'available', 1, 6),
-('Deluxe Room', 'deluxe-room', 'Deluxe', 198.00, 32, 3, 'King Beds', 'Wifi, Television, Bathroom, Ocean View', 'Elegant deluxe room equipped with state-of-the-art entertainment and breathtaking sunset vista.', 'img/room/room-b3.jpg', 'available', 1, 10),
-('Family Room', 'family-room', 'Family', 299.00, 45, 6, 'King & Twin Beds', 'Wifi, Television, Bathroom, Kitchenette', 'Designed for families, offering interconnected sleeping zones, baby-care facilities, and spacious lounge.', 'img/room/room-b4.jpg', 'available', 1, 4),
-('Executive Presidential Suite', 'presidential-suite', 'Suite', 450.00, 65, 4, 'California King', 'Wifi, Television, Private Pool, Butler Service', 'The pinnacle of luxury with private elevator access, butler service, dedicated bar, and bespoke furnishings.', 'img/room/room-1.jpg', 'available', 1, 2),
-('Classic Twin Room', 'classic-twin-room', 'Double', 139.00, 28, 2, '2 Twin Beds', 'Wifi, Television, Bathroom, Coffee Maker', 'Ideal for business or leisure travelers seeking comfortable twin bedding and modern work desk.', 'img/room/room-2.jpg', 'available', 0, 12);
+('Double Room', 'double-room', 'Double', 59700.00, 30, 4, 'King Beds', 'Wifi, Television, Bathroom, Mini Bar', 'Spacious double room with contemporary decor, plush bedding, ambient lighting, and panoramic city views.', 'img/room/room-b1.jpg', 'available', 1, 8),
+('Premium King Room', 'premium-king-room', 'Premium', 47700.00, 35, 5, 'King Beds', 'Wifi, Television, Bathroom, Jacuzzi, Balcony', 'Experience luxury with an expansive suite featuring a king-size bed, private marble bath, and balcony.', 'img/room/room-b2.jpg', 'available', 1, 6),
+('Deluxe Room', 'deluxe-room', 'Deluxe', 59400.00, 32, 3, 'King Beds', 'Wifi, Television, Bathroom, Ocean View', 'Elegant deluxe room equipped with state-of-the-art entertainment and breathtaking sunset vista.', 'img/room/room-b3.jpg', 'available', 1, 10),
+('Family Room', 'family-room', 'Family', 89700.00, 45, 6, 'King & Twin Beds', 'Wifi, Television, Bathroom, Kitchenette', 'Designed for families, offering interconnected sleeping zones, baby-care facilities, and spacious lounge.', 'img/room/room-b4.jpg', 'available', 1, 4),
+('Executive Presidential Suite', 'presidential-suite', 'Suite', 135000.00, 65, 4, 'California King', 'Wifi, Television, Private Pool, Butler Service', 'The pinnacle of luxury with private elevator access, butler service, dedicated bar, and bespoke furnishings.', 'img/room/room-1.jpg', 'available', 1, 2),
+('Classic Twin Room', 'classic-twin-room', 'Double', 41700.00, 28, 2, '2 Twin Beds', 'Wifi, Television, Bathroom, Coffee Maker', 'Ideal for business or leisure travelers seeking comfortable twin bedding and modern work desk.', 'img/room/room-2.jpg', 'available', 0, 12);
 
 -- ----------------------------------------------------------
 -- 3. Hotel Services
@@ -62,10 +62,10 @@ VALUES
 -- ----------------------------------------------------------
 INSERT INTO `bookings` (`booking_reference`, `room_id`, `guest_name`, `guest_email`, `guest_phone`, `check_in`, `check_out`, `adults`, `children`, `room_count`, `total_nights`, `total_amount`, `status`, `payment_status`, `payment_method`, `special_requests`)
 VALUES
-('BK-SONA-1001', 1, 'Johnathan Miller', 'j.miller@example.com', '+1 (555) 234-5678', '2026-10-25', '2026-10-28', 2, 0, 1, 3, 597.00, 'confirmed', 'paid', 'Credit Card', 'High floor room if available, extra pillows.'),
-('BK-SONA-1002', 2, 'Victoria Sterling', 'v.sterling@example.com', '+1 (555) 987-6543', '2026-10-24', '2026-10-26', 2, 1, 1, 2, 318.00, 'checked_in', 'paid', 'Pay at Hotel', 'Late arrival expected around 9 PM.'),
-('BK-SONA-1003', 4, 'Robert & Sarah Davies', 'rdavies@example.com', '+1 (555) 456-7890', '2026-10-29', '2026-11-02', 3, 2, 1, 4, 1196.00, 'pending', 'unpaid', 'Pay at Hotel', 'Need baby crib in bedroom.'),
-('BK-SONA-1004', 3, 'Amara Patel', 'amara.p@example.com', '+1 (555) 345-6712', '2026-10-20', '2026-10-23', 2, 0, 1, 3, 594.00, 'checked_out', 'paid', 'Credit Card', 'Honeymoon stay, requested welcome fruits.');
+('BK-SONA-1001', 1, 'Johnathan Miller', 'j.miller@example.com', '+1 (555) 234-5678', '2026-10-25', '2026-10-28', 2, 0, 1, 3, 179100.00, 'confirmed', 'paid', 'Credit Card', 'High floor room if available, extra pillows.'),
+('BK-SONA-1002', 2, 'Victoria Sterling', 'v.sterling@example.com', '+1 (555) 987-6543', '2026-10-24', '2026-10-26', 2, 1, 1, 2, 95400.00, 'checked_in', 'paid', 'Pay at Hotel', 'Late arrival expected around 9 PM.'),
+('BK-SONA-1003', 4, 'Robert & Sarah Davies', 'rdavies@example.com', '+1 (555) 456-7890', '2026-10-29', '2026-11-02', 3, 2, 1, 4, 358800.00, 'pending', 'unpaid', 'Pay at Hotel', 'Need baby crib in bedroom.'),
+('BK-SONA-1004', 3, 'Amara Patel', 'amara.p@example.com', '+1 (555) 345-6712', '2026-10-20', '2026-10-23', 2, 0, 1, 3, 178200.00, 'checked_out', 'paid', 'Credit Card', 'Honeymoon stay, requested welcome fruits.');
 
 -- ----------------------------------------------------------
 -- 7. Sample Contact Inquiries
@@ -82,10 +82,10 @@ VALUES
 INSERT INTO `hotel_settings` (`setting_key`, `setting_value`, `group_name`, `description`)
 VALUES
 ('hotel_name', 'Sona Luxury Hotel & Resort', 'general', 'Official name of the property'),
-('contact_email', 'info.colorlib@gmail.com', 'general', 'Public customer support email'),
+('contact_email', 'info.sona@gmail.com', 'general', 'Public customer support email'),
 ('contact_phone', '(12) 345 67890', 'general', 'Primary reservation hotline'),
-('address', '856 Cordia Extension Apt. 356, Lake, United States', 'general', 'Physical hotel location'),
+('address', 'No. 42/3 Galle Road, Colombo 03, Sri Lanka', 'general', 'Physical hotel location'),
 ('check_in_time', '15:00', 'policies', 'Standard check-in time'),
 ('check_out_time', '11:00', 'policies', 'Standard check-out time'),
-('currency_symbol', '$', 'general', 'Currency symbol displayed to guests'),
+('currency_symbol', 'LKR', 'general', 'Currency symbol displayed to guests'),
 ('tax_rate_percent', '12', 'finance', 'Applicable local hospitality tax percentage');

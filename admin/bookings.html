@@ -29,7 +29,7 @@
     <aside class="admin-sidebar">
       <div class="sidebar-header">
         <a href="index.html" class="logo">
-          <img src="../img/logo.png" alt="Sona Hotel">
+          <img src="../img/footer-logo.png" alt="Sona Hotel">
         </a>
         <div class="brand-subtitle">Executive Suite</div>
       </div>
@@ -345,7 +345,7 @@
           </td>
           <td>
             <div style="font-family:'Lora',serif; font-size:16px; font-weight:700;">${formatCurrency(b.total_amount)}</div>
-            <div style="font-size:11px; color:#888;">$${b.room_unit_price}/night</div>
+            <div style="font-size:11px; color:#888;">LKR ${parseFloat(b.room_unit_price).toLocaleString('en-US', {minimumFractionDigits: 2})}/night</div>
           </td>
           <td>${getStatusBadge(b.status)}</td>
           <td>${getPaymentBadge(b.payment_status)}</td>
@@ -448,7 +448,7 @@
 
           <div style="background:rgba(223,169,116,0.08); border:1px solid rgba(223,169,116,0.3); padding:16px; border-radius:4px; margin-bottom: 15px;">
             <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <span>Nightly Rate (${b.total_nights} nights x $${b.room_unit_price}):</span>
+              <span>Nightly Rate (${b.total_nights} nights x LKR ${parseFloat(b.room_unit_price).toLocaleString('en-US', {minimumFractionDigits: 2})}):</span>
               <strong>${formatCurrency(b.total_amount)}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; font-size:16px; border-top:1px dashed rgba(223,169,116,0.4); padding-top:8px;">
@@ -483,7 +483,7 @@
         if (res.success) {
           const select = document.getElementById('nb_room');
           select.innerHTML = '<option value="">Select Room...</option>' + 
-            res.data.map(r => `<option value="${r.id}">${r.name} - $${r.price_per_night}/night (${r.category})</option>`).join('');
+            res.data.map(r => `<option value="${r.id}">${r.name} - LKR ${parseFloat(r.price_per_night).toLocaleString('en-US', {minimumFractionDigits: 2})}/night (${r.category})</option>`).join('');
         }
       } catch (e) {}
     }

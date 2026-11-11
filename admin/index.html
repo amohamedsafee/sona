@@ -33,7 +33,7 @@
     <aside class="admin-sidebar">
       <div class="sidebar-header">
         <a href="index.html" class="logo">
-          <img src="../img/logo.png" alt="Sona Hotel">
+          <img src="../img/footer-logo.png" alt="Sona Hotel">
         </a>
         <div class="brand-subtitle">Executive Suite</div>
       </div>
@@ -114,9 +114,9 @@
           <div class="kpi-card">
             <div class="kpi-card-header">
               <span class="kpi-title">Total Revenue</span>
-              <div class="kpi-icon-wrap"><i class="fa fa-dollar"></i></div>
+              <div class="kpi-icon-wrap"><i class="fa fa-money"></i></div>
             </div>
-            <div class="kpi-value" id="kpi-revenue">$0.00</div>
+            <div class="kpi-value" id="kpi-revenue">LKR 0.00</div>
             <div class="kpi-footer-text"><i class="fa fa-arrow-up" style="color:var(--success)"></i> Verified transactions</div>
           </div>
 
@@ -391,7 +391,7 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'Monthly Revenue ($)',
+            label: 'Monthly Revenue (LKR)',
             data: values,
             borderColor: '#dfa974',
             backgroundColor: 'rgba(223, 169, 116, 0.15)',
@@ -413,7 +413,7 @@
             y: {
               beginAtZero: true,
               grid: { color: 'rgba(0,0,0,0.05)' },
-              ticks: { callback: v => '$' + v }
+              ticks: { callback: v => 'LKR ' + Number(v).toLocaleString() }
             },
             x: {
               grid: { display: false }
@@ -561,7 +561,7 @@
 
           <div style="background:#fcf9f5; border:1px solid rgba(223,169,116,0.3); padding:16px; border-radius:4px; margin-bottom: 15px;">
             <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-              <span>Room Rate (${b.total_nights} nights x $${b.room_unit_price}):</span>
+              <span>Room Rate (${b.total_nights} nights x LKR ${parseFloat(b.room_unit_price).toLocaleString('en-US', {minimumFractionDigits: 2})}):</span>
               <strong>${formatCurrency(b.total_amount)}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; font-size: 16px; border-top: 1px dashed #ddd; padding-top: 8px;">
@@ -590,7 +590,7 @@
         if (res.success && res.data) {
           const select = document.getElementById('nb_room');
           select.innerHTML = '<option value="">Select Room...</option>' + 
-            res.data.map(r => `<option value="${r.id}">${r.name} - $${r.price_per_night}/night</option>`).join('');
+            res.data.map(r => `<option value="${r.id}">${r.name} - LKR ${parseFloat(r.price_per_night).toLocaleString('en-US', {minimumFractionDigits: 2})}/night</option>`).join('');
         }
       } catch (e) {}
     }

@@ -24,17 +24,29 @@ exports.login = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide both username/email and password.' });
     }
 
+    const cleanInput = String(usernameOrEmail).trim();
+    const cleanPassword = String(password).trim();
+
     // Check if input is email or username
-    const isEmail = usernameOrEmail.includes('@');
-    const query = isEmail ? userQueries.FIND_BY_EMAIL : userQueries.FIND_BY_USERNAME;
-    const users = await db.query(query, [usernameOrEmail]);
+    const isEmail = cleanInput.includes('@');
+    let query = isEmail ? userQueries.FIND_BY_EMAIL : userQueries.FIND_BY_USERNAME;
+    let users = await db.query(query, [cleanInput]);
+
+    // Fallback if legacy email or info.sona email was used
+    if ((!users || users.length === 0) && isEmail) {
+      if (cleanInput.toLowerCase() === 'admin@sona.com') {
+        users = await db.query(userQueries.FIND_BY_EMAIL, ['info.sona@gmail.com']);
+      } else if (cleanInput.toLowerCase() === 'info.sona@gmail.com') {
+        users = await db.query(userQueries.FIND_BY_EMAIL, ['admin@sona.com']);
+      }
+    }
 
     if (!users || users.length === 0) {
       return res.status(401).json({ success: false, message: 'Invalid credentials. User not found.' });
     }
 
     const user = users[0];
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(cleanPassword, user.password_hash);
 
     if (!isMatch) {
       return res.status(401).json({ success: false, message: 'Invalid credentials. Password incorrect.' });

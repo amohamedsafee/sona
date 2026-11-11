@@ -25,7 +25,14 @@ const calculateNights = (checkInDate, checkOutDate) => {
 // Public: Get rooms
 exports.getRooms = async (req, res) => {
   try {
-    const rooms = await db.query(roomQueries.GET_FEATURED_ROOMS);
+    const { category } = req.query;
+    let query = roomQueries.GET_PUBLIC_ROOMS;
+    let params = [];
+    if (category && category !== 'all') {
+      query = `SELECT * FROM rooms WHERE status != 'maintenance' AND category = ? ORDER BY is_featured DESC, id ASC`;
+      params = [category];
+    }
+    const rooms = await db.query(query, params);
     res.json({ success: true, data: rooms });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to fetch rooms.', error: err.message });

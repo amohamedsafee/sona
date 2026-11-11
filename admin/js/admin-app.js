@@ -116,7 +116,7 @@ function closeModal(modalId) {
 // Formatting Helpers
 function formatCurrency(amount) {
   const num = parseFloat(amount) || 0;
-  return '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return 'LKR ' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function formatDate(dateStr) {

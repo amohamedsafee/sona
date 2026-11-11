@@ -29,7 +29,7 @@
     <aside class="admin-sidebar">
       <div class="sidebar-header">
         <a href="index.html" class="logo">
-          <img src="../img/logo.png" alt="Sona Hotel">
+          <img src="../img/footer-logo.png" alt="Sona Hotel">
         </a>
         <div class="brand-subtitle">Executive Suite</div>
       </div>
@@ -140,7 +140,7 @@
                 <div class="form-grid-2">
                   <div class="form-group">
                     <label>Currency Symbol</label>
-                    <input type="text" id="set_currency" class="form-control" value="$">
+                    <input type="text" id="set_currency" class="form-control" value="LKR">
                   </div>
                   <div class="form-group">
                     <label>Local Hospitality Tax (%)</label>
@@ -217,12 +217,12 @@
         if (res.success && res.data) {
           const s = res.data;
           document.getElementById('set_hotel_name').value = s.hotel_name || 'Sona Luxury Hotel & Resort';
-          document.getElementById('set_contact_email').value = s.contact_email || 'info.colorlib@gmail.com';
+          document.getElementById('set_contact_email').value = s.contact_email || 'info.sona@gmail.com';
           document.getElementById('set_contact_phone').value = s.contact_phone || '(12) 345 67890';
-          document.getElementById('set_address').value = s.address || '856 Cordia Extension Apt. 356, Lake, US';
+          document.getElementById('set_address').value = s.address || 'No. 42/3 Galle Road, Colombo 03, Sri Lanka';
           document.getElementById('set_checkin').value = s.check_in_time || '15:00';
           document.getElementById('set_checkout').value = s.check_out_time || '11:00';
-          document.getElementById('set_currency').value = s.currency_symbol || '$';
+          document.getElementById('set_currency').value = s.currency_symbol || 'LKR';
           document.getElementById('set_tax').value = s.tax_rate_percent || '12';
         }
       } catch (e) {

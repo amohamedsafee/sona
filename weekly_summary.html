@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 02 UI Wireframes & Design System — Sona Luxury Hotel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        :root {
+            --primary-gold: #dfa974;
+            --primary-dark: #19191a;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --bg-canvas: #f4f6f9;
+            --card-border: #e2e8f0;
+            --wireframe-gray: #e9ecef;
+            --wireframe-border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cabin', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Top Header Banner */
+        .summary-header {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--primary-gold);
+            border-radius: 8px;
+            padding: 22px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .summary-header h1 {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .summary-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .meta-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            background: #fdf6ec;
+            border: 1px solid #f6d8ae;
+            color: #9c6827;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-pill.active-week {
+            background: var(--primary-dark);
+            color: #ffffff;
+            border-color: var(--primary-dark);
+        }
+
+        /* Design System Token Panel */
+        .preview-card {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            margin-bottom: 28px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .card-header-label {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header-label span.highlight {
+            color: #b47a3e;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        /* Color Swatches Grid */
+        .tokens-grid {
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .color-card {
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .color-swatch {
+            height: 70px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: 10px 14px;
+            font-size: 12px;
+        }
+
+        .color-info strong {
+            display: block;
+            font-size: 13px;
+            color: var(--text-dark);
+        }
+
+        .color-info code {
+            font-family: 'JetBrains Mono', monospace;
+            color: #555;
+            font-size: 11px;
+        }
+
+        /* Wireframe Blueprint Section */
+        .wireframe-canvas {
+            padding: 28px;
+            background: #fbfbfc;
+        }
+
+        .wireframe-block {
+            border: 2px dashed var(--wireframe-border);
+            border-radius: 6px;
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .wireframe-tag {
+            position: absolute;
+            top: -11px;
+            left: 18px;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Wireframe Header Bar */
+        .wf-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .wf-logo-box {
+            width: 130px;
+            height: 32px;
+            background: var(--wireframe-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .wf-nav-items {
+            display: flex;
+            gap: 16px;
+        }
+
+        .wf-nav-item {
+            width: 60px;
+            height: 12px;
+            background: var(--wireframe-gray);
+            border-radius: 3px;
+        }
+
+        .wf-cta-btn {
+            background: var(--primary-gold);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 7px 16px;
+            border-radius: 4px;
+        }
+
+        /* Wireframe Hero & Booking Row */
+        .wf-hero-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 24px;
+            margin-top: 18px;
+            align-items: center;
+        }
+
+        .wf-hero-text h3 {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .wf-hero-placeholder {
+            height: 10px;
+            background: var(--wireframe-gray);
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .wf-booking-box {
+            background: #ffffff;
+            border: 1px solid var(--wireframe-border);
+            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .wf-booking-box h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 6px;
+        }
+
+        .wf-input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .wf-field {
+            height: 32px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wf-submit-btn {
+            width: 100%;
+            height: 34px;
+            background: var(--primary-dark);
+            color: #ffffff;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.8px;
+        }
+
+        /* Wireframe Room Cards */
+        .wf-rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 14px;
+        }
+
+        .wf-room-card {
+            border: 1px solid var(--wireframe-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .wf-room-thumb {
+            height: 130px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .wf-room-thumb i {
+            margin-right: 6px;
+        }
+
+        .wf-room-content {
+            padding: 14px;
+        }
+
+        .wf-price-tag {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            color: #b47a3e;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .wf-title-line {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .wf-feature-list {
+            list-style: none;
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .wf-feature-list li i {
+            color: var(--primary-gold);
+            width: 14px;
+        }
+
+        .wf-card-btn {
+            display: block;
+            text-align: center;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 6px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        /* Mobile Solution Box */
+        .solution-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 14px 20px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .solution-box i {
+            font-size: 22px;
+            color: #16a34a;
+        }
+
+        .solution-box p {
+            font-size: 13px;
+            color: #166534;
+        }
+
+        /* Footer */
+        .summary-footer {
+            text-align: center;
+            padding: 16px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--card-border);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Top Header -->
+        <header class="summary-header">
+            <div>
+                <h1>Sona Luxury Hotel — Industrial Training Progress</h1>
+                <p>NAITA Logbook Visual Verification Sheet • Week 02 UI/UX Wireframing & Design Tokens</p>
+            </div>
+            <div class="meta-badges">
+                <span class="badge-pill active-week">Week No: 02</span>
+                <span class="badge-pill">21/09/2026 – 27/09/2026</span>
+                <span class="badge-pill">Location: Maruthamunai</span>
+            </div>
+        </header>
+
+        <!-- Section 1: Design System & Color Tokens -->
+        <div class="preview-card">
+            <div class="card-header-label">
+                <span>[Design System] Core Color Palette Tokens & Typography Standards</span>
+                <span class="highlight">Figma Token Specification</span>
+            </div>
+            <div class="tokens-grid">
+                <!-- Color 1 -->
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #dfa974;"></div>
+                    <div class="color-info">
+                        <strong>Primary Luxury Gold</strong>
+                        <code>#DFA974</code>
+                    </div>
+                </div>
+                <!-- Color 2 -->
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #19191a;"></div>
+                    <div class="color-info">
+                        <strong>Deep Charcoal Dark</strong>
+                        <code>#19191A</code>
+                    </div>
+                </div>
+                <!-- Color 3 -->
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #252525;"></div>
+                    <div class="color-info">
+                        <strong>Main Body Text Dark</strong>
+                        <code>#252525</code>
+                    </div>
+                </div>
+                <!-- Color 4 -->
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #f8f9fa; border-bottom: 1px solid #e2e8f0;"></div>
+                    <div class="color-info">
+                        <strong>Canvas Light Surface</strong>
+                        <code>#F8F9FA</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Figma Low-Fidelity Wireframes -->
+        <div class="preview-card">
+            <div class="card-header-label">
+                <span>[Wireframe Layout 1] Homepage Navigation & Hero Availability Form</span>
+                <span class="highlight">Wireframe Artboard 01 (Desktop 1440px)</span>
+            </div>
+            <div class="wireframe-canvas">
+                <div class="wireframe-block">
+                    <div class="wireframe-tag">Navigation Wireframe</div>
+                    <div class="wf-nav">
+                        <div class="wf-logo-box"><i class="fa fa-diamond" style="margin-right:6px; color:#dfa974;"></i> SONA LOGO</div>
+                        <div class="wf-nav-items">
+                            <div class="wf-nav-item"></div>
+                            <div class="wf-nav-item"></div>
+                            <div class="wf-nav-item"></div>
+                            <div class="wf-nav-item"></div>
+                        </div>
+                        <div class="wf-cta-btn">Book Now</div>
+                    </div>
+
+                    <div class="wf-hero-grid">
+                        <div class="wf-hero-text">
+                            <h3>Sona A Luxury Hotel</h3>
+                            <div class="wf-hero-placeholder" style="width: 85%;"></div>
+                            <div class="wf-hero-placeholder" style="width: 70%;"></div>
+                            <div class="wf-hero-placeholder" style="width: 50%; margin-top: 14px;"></div>
+                        </div>
+                        <div class="wf-booking-box">
+                            <h4>Booking Your Hotel</h4>
+                            <div class="wf-input-grid">
+                                <div class="wf-field"><span>Check In</span> <i class="fa fa-calendar"></i></div>
+                                <div class="wf-field"><span>Check Out</span> <i class="fa fa-calendar"></i></div>
+                                <div class="wf-field"><span>Guests: 2</span> <i class="fa fa-chevron-down"></i></div>
+                                <div class="wf-field"><span>Rooms: 1</span> <i class="fa fa-chevron-down"></i></div>
+                            </div>
+                            <div class="wf-submit-btn">Check Availability</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Room Catalog Cards Wireframe -->
+                <div class="wireframe-block">
+                    <div class="wireframe-tag">Room Catalog Wireframe (`rooms.html`)</div>
+                    <div style="font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 12px; margin-top: 6px;">
+                        3-Column Responsive Grid Architecture
+                    </div>
+                    <div class="wf-rooms-grid">
+                        <!-- Card 1 -->
+                        <div class="wf-room-card">
+                            <div class="wf-room-thumb"><i class="fa fa-picture-o"></i> [Room Thumbnail Image]</div>
+                            <div class="wf-room-content">
+                                <div class="wf-price-tag">$159 <span style="font-size:10px; color:#888;">/ Night</span></div>
+                                <div class="wf-title-line">Deluxe Room Wireframe</div>
+                                <ul class="wf-feature-list">
+                                    <li><i class="fa fa-check"></i> Capacity: 2 Persons</li>
+                                    <li><i class="fa fa-check"></i> King Size Bed</li>
+                                    <li><i class="fa fa-check"></i> Wi-Fi, AC, Sea View</li>
+                                </ul>
+                                <a href="#" class="wf-card-btn">View Details</a>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="wf-room-card">
+                            <div class="wf-room-thumb"><i class="fa fa-picture-o"></i> [Room Thumbnail Image]</div>
+                            <div class="wf-room-content">
+                                <div class="wf-price-tag">$249 <span style="font-size:10px; color:#888;">/ Night</span></div>
+                                <div class="wf-title-line">Family Suite Wireframe</div>
+                                <ul class="wf-feature-list">
+                                    <li><i class="fa fa-check"></i> Capacity: 4 Persons</li>
+                                    <li><i class="fa fa-check"></i> 2 Queen Beds</li>
+                                    <li><i class="fa fa-check"></i> Balcony, Free Breakfast</li>
+                                </ul>
+                                <a href="#" class="wf-card-btn">View Details</a>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="wf-room-card">
+                            <div class="wf-room-thumb"><i class="fa fa-picture-o"></i> [Room Thumbnail Image]</div>
+                            <div class="wf-room-content">
+                                <div class="wf-price-tag">$389 <span style="font-size:10px; color:#888;">/ Night</span></div>
+                                <div class="wf-title-line">Presidential Suite Wireframe</div>
+                                <ul class="wf-feature-list">
+                                    <li><i class="fa fa-check"></i> Capacity: 4 Persons</li>
+                                    <li><i class="fa fa-check"></i> California King Bed</li>
+                                    <li><i class="fa fa-check"></i> Private Pool & Lounge</li>
+                                </ul>
+                                <a href="#" class="wf-card-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem Solved Note -->
+                <div class="solution-box">
+                    <i class="fa fa-check-circle"></i>
+                    <div>
+                        <strong>Problem Identified & Resolved (Saturday 26/09):</strong>
+                        <p>Multi-column room card overflow on smaller viewport dimensions was resolved by designing a single-column stacked auto-layout structure with elastic image scaling for mobile devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="summary-footer">
+            <p><strong>NAITA Industrial Training Daily Diary — Trainee: Wahab Mohammed Jumail</strong></p>
+            <p>Establishment: Sona Luxury Hotel Project • Special Industrial Training (HNDIT / Information Technology)</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
